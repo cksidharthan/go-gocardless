@@ -1,17 +1,19 @@
 package token
 
 import (
+	"context"
 	"github.com/weportfolio/go-nordigen/consts"
 )
 
-func (c Client) New() (*Token, error) {
+// New creates a new token
+func (c Client) New(ctx context.Context) (*Token, error) {
 	var token Token
 	accessCreds := map[string]string{
 		"secret_id":  c.HTTP.APISecretID,
 		"secret_key": c.HTTP.APISecretKey,
 	}
 
-	err := c.HTTP.Post(consts.TokenNewPath, nil, accessCreds, &token)
+	err := c.HTTP.Post(ctx, consts.TokenNewPath, consts.RequestHeaders(), accessCreds, &token)
 	if err != nil {
 		return nil, err
 	}
@@ -19,13 +21,14 @@ func (c Client) New() (*Token, error) {
 	return &token, nil
 }
 
-func (c Client) Refresh(refreshToken string) (*Token, error) {
+// Refresh refreshes a token
+func (c Client) Refresh(ctx context.Context, refreshToken string) (*Token, error) {
 	var token Token
 	refreshCreds := map[string]string{
 		"refresh": refreshToken,
 	}
 
-	err := c.HTTP.Post(consts.TokenRefreshPath, nil, refreshCreds, &token)
+	err := c.HTTP.Post(ctx, consts.TokenRefreshPath, consts.RequestHeaders(), refreshCreds, &token)
 	if err != nil {
 		return nil, err
 	}

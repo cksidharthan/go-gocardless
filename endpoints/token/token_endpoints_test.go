@@ -1,10 +1,9 @@
 package token_test
 
 import (
-	"fmt"
+	"context"
 	"github.com/weportfolio/go-nordigen/consts"
 	"net/http"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -18,11 +17,11 @@ func TestClient_New(t *testing.T) {
 		t.Parallel()
 
 		client := nordigen.New(
-			getSecrets(t),
+			consts.GetSecrets(t),
 		)
 		assert.NotNil(t, client)
 
-		token, err := client.Token().New()
+		token, err := client.Token().New(context.Background())
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 	})
@@ -36,7 +35,7 @@ func TestClient_New(t *testing.T) {
 		)
 		assert.NotNil(t, client)
 
-		token, err := client.Token().New()
+		token, err := client.Token().New(context.Background())
 		assert.Error(t, err)
 		assert.Nil(t, token)
 
@@ -52,15 +51,15 @@ func TestClient_Refresh(t *testing.T) {
 		t.Parallel()
 
 		client := nordigen.New(
-			getSecrets(t),
+			consts.GetSecrets(t),
 		)
 		assert.NotNil(t, client)
 
-		token, err := client.Token().New()
+		token, err := client.Token().New(context.Background())
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		refreshedToken, err := client.Token().Refresh(token.Refresh)
+		refreshedToken, err := client.Token().Refresh(context.Background(), token.Refresh)
 		assert.NoError(t, err)
 		assert.NotNil(t, refreshedToken)
 	})
@@ -69,24 +68,12 @@ func TestClient_Refresh(t *testing.T) {
 		t.Parallel()
 
 		client := nordigen.New(
-			getSecrets(t),
+			consts.GetSecrets(t),
 		)
 		assert.NotNil(t, client)
 
-		refreshedToken, err := client.Token().Refresh("invalid")
+		refreshedToken, err := client.Token().Refresh(context.Background(), "invalid")
 		assert.Error(t, err)
 		assert.Nil(t, refreshedToken)
 	})
-}
-
-func getSecrets(t *testing.T) (string, string) {
-	t.Helper()
-
-	secretID := os.Getenv("NORDIGEN_SECRET_ID")
-	secretKey := os.Getenv("NORDIGEN_SECRET_KEY")
-	if secretID == "" || secretKey == "" {
-		fmt.Println("NORDIGEN_SECRET_ID or NORDIGEN_SECRET_KEY is not set")
-	}
-
-	return secretID, secretKey
 }

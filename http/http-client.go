@@ -2,6 +2,7 @@ package http
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/weportfolio/go-nordigen/consts"
@@ -15,10 +16,10 @@ const (
 
 //go:generate mockgen -source=http-client.go -destination=mocks/mock_client.go -package=mocks -build_flags=-mod=mod
 type IClient interface {
-	Get(path string, params map[string]string, response interface{}) error
-	Post(path string, params map[string]string, body interface{}, response interface{}) error
-	Put(path string, params map[string]string, body interface{}, response interface{}) error
-	Delete(path string, params map[string]string, response interface{}) error
+	Get(ctx context.Context, path string, headers map[string]string, response interface{}) error
+	Post(ctx context.Context, path string, headers map[string]string, body interface{}, response interface{}) error
+	Put(ctx context.Context, path string, headers map[string]string, body interface{}, response interface{}) error
+	Delete(ctx context.Context, path string, headers map[string]string, response interface{}) error
 }
 
 type Client struct {
@@ -38,27 +39,27 @@ func New(secretID, secretKey string) *Client {
 }
 
 // Get is a wrapper around request that performs a GET request
-func (c *Client) Get(path string, params map[string]string, response interface{}) error {
-	return c.request(http.MethodGet, path, params, nil, response)
+func (c *Client) Get(ctx context.Context, path string, headers map[string]string, response interface{}) error {
+	return c.request(ctx, http.MethodGet, path, headers, nil, response)
 }
 
 // Post is a wrapper around request that performs a POST request
-func (c *Client) Post(path string, params map[string]string, body interface{}, response interface{}) error {
-	return c.request(http.MethodPost, path, params, body, response)
+func (c *Client) Post(ctx context.Context, path string, headers map[string]string, body interface{}, response interface{}) error {
+	return c.request(ctx, http.MethodPost, path, headers, body, response)
 }
 
 // Put is a wrapper around request that performs a PUT request
-func (c *Client) Put(path string, params map[string]string, body interface{}, response interface{}) error {
-	return c.request(http.MethodPut, path, params, body, response)
+func (c *Client) Put(ctx context.Context, path string, headers map[string]string, body interface{}, response interface{}) error {
+	return c.request(ctx, http.MethodPut, path, headers, body, response)
 }
 
 // Delete is a wrapper around request that performs a DELETE request
-func (c *Client) Delete(path string, params map[string]string, response interface{}) error {
-	return c.request(http.MethodDelete, path, params, nil, response)
+func (c *Client) Delete(ctx context.Context, path string, headers map[string]string, response interface{}) error {
+	return c.request(ctx, http.MethodDelete, path, headers, nil, response)
 }
 
 // request is a wrapper around http.Client.Do that performs a request and decodes the response into the response interface
-func (c *Client) request(method, path string, params map[string]string, body interface{}, response interface{}) error {
+func (c *Client) request(ctx context.Context, method, path string, headers map[string]string, body interface{}, response interface{}) error {
 	var bytesBody []byte
 	var err error
 	if body != nil {
@@ -68,7 +69,7 @@ func (c *Client) request(method, path string, params map[string]string, body int
 		}
 	}
 
-	req, err := c.newRequest(method, path, params, bytesBody)
+	req, err := c.newRequest(ctx, method, path, headers, bytesBody)
 	if err != nil {
 		return fmt.Errorf("failed to create request: %w", err)
 	}
@@ -90,31 +91,28 @@ func (c *Client) request(method, path string, params map[string]string, body int
 	return nil
 }
 
-// newRequest creates a new http.Request with the given method, path, params and body
-func (c *Client) newRequest(method, path string, params map[string]string, body []byte) (*http.Request, error) {
+// newRequest creates a new http.Request with the given method, path, headers and body
+func (c *Client) newRequest(ctx context.Context, method, path string, headers map[string]string, body []byte) (*http.Request, error) {
 	url := c.BaseURL + "/" + c.APIVersion + path
 
 	var req *http.Request
 	var err error
 
 	if body != nil {
-		req, err = http.NewRequest(method, url, bytes.NewBuffer(body))
+		req, err = http.NewRequestWithContext(ctx, method, url, bytes.NewBuffer(body))
 		if err != nil {
 			return nil, fmt.Errorf("failed to create request: %w", err)
 		}
 	} else {
-		req, err = http.NewRequest(method, url, nil)
+		req, err = http.NewRequestWithContext(ctx, method, url, nil)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create request: %w", err)
 		}
 	}
 
-	q := req.URL.Query()
-	for key, value := range params {
-		q.Add(key, value)
+	for k, v := range headers {
+		req.Header.Set(k, v)
 	}
-	req.Header.Set("Content-Type", "application/json")
-	req.URL.RawQuery = q.Encode()
 
 	return req, nil
 }
@@ -131,7 +129,7 @@ func decodeResponse(resp *http.Response, response interface{}) error {
 func convertToBytes(requestBody interface{}) (body []byte, err error) {
 	body, err = json.Marshal(requestBody)
 	if err != nil {
-		return nil, fmt.Errorf("failed to marshal params: %w", err)
+		return nil, fmt.Errorf("failed to marshal request body: %w", err)
 	}
 
 	return body, nil
