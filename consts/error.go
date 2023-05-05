@@ -10,6 +10,12 @@ type Error struct {
 	Summary    string `json:"summary"`
 	Detail     string `json:"detail"`
 	StatusCode int    `json:"status_code"`
+	Reference  string `json:"reference"`
+}
+
+type Reference struct {
+	Summary string `json:"summary"`
+	Detail  string `json:"detail"`
 }
 
 func NewError(errResponse *http.Response) error {

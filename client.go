@@ -2,6 +2,7 @@ package nordigen
 
 import (
 	"github.com/weportfolio/go-nordigen/endpoints/accounts"
+	"github.com/weportfolio/go-nordigen/endpoints/agreements"
 	"github.com/weportfolio/go-nordigen/endpoints/institutions"
 	"github.com/weportfolio/go-nordigen/endpoints/token"
 )
@@ -11,6 +12,7 @@ type Client struct {
 	accounts     *accounts.Client
 	token        *token.Client
 	institutions *institutions.Client
+	agreements   *agreements.Client
 }
 
 // Accounts returns the accounts client
@@ -28,11 +30,17 @@ func (c *Client) Institutions() *institutions.Client {
 	return c.institutions
 }
 
+// Agreements returns the agreements client
+func (c *Client) Agreements() *agreements.Client {
+	return c.agreements
+}
+
 // New creates a new Nordigen client
 func New(secretID, secretKey string) *Client {
 	return &Client{
 		accounts:     accounts.New(secretID, secretKey),
 		token:        token.New(secretID, secretKey),
 		institutions: institutions.New(secretID, secretKey),
+		agreements:   agreements.New(secretID, secretKey),
 	}
 }
