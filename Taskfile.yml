@@ -1,6 +1,17 @@
 version: 3
 
+includes:
+  sub:
+    taskfile: templates/taskfiles/Taskfile.yml
+    optional: true
+
 tasks:
-  build:
+  submodule:
     cmds:
-      - echo "Hello World"
+      - git submodule update --init --recursive
+    desc: Update submodules
+
+  gen:
+    cmds:
+      - go generate ./...
+    desc: Run go generate on the project
