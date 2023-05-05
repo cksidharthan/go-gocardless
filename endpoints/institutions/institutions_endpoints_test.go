@@ -27,4 +27,20 @@ func TestClient_List(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, institutions)
 	})
+
+	t.Run("list institutions with invalid token", func(t *testing.T) {
+		t.Parallel()
+
+		client := nordigen.New(
+			consts.GetSecrets(t),
+		)
+		assert.NotNil(t, client)
+
+		institutions, err := client.Institutions().List(context.Background(), "invalid", consts.NetherlandsInstitution, true)
+		assert.Error(t, err)
+		assert.Nil(t, institutions)
+
+		checkErr := consts.ExtractError(err)
+		assert.Equal(t, 401, checkErr.StatusCode)
+	})
 }
