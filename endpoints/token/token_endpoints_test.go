@@ -2,6 +2,8 @@ package token_test
 
 import (
 	"fmt"
+	"github.com/weportfolio/go-nordigen/consts"
+	"net/http"
 	"os"
 	"testing"
 
@@ -37,6 +39,9 @@ func TestClient_New(t *testing.T) {
 		token, err := client.Token().New()
 		assert.Error(t, err)
 		assert.Nil(t, token)
+
+		checkErr := consts.ExtractError(err)
+		assert.Equal(t, http.StatusUnauthorized, checkErr.StatusCode)
 	})
 }
 

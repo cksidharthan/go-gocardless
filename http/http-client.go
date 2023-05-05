@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/weportfolio/go-nordigen/consts"
 	"net/http"
 )
 
@@ -78,8 +79,8 @@ func (c *Client) request(method, path string, params map[string]string, body int
 		return fmt.Errorf("failed to send request: %w", err)
 	}
 
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("request failed with status code %d", resp.StatusCode)
+	if resp.StatusCode > 300 {
+		return consts.NewError(resp)
 	}
 
 	if response != nil {
