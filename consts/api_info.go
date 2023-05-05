@@ -44,6 +44,6 @@ const (
 )
 
 const (
-	TokenNewPath = "/token/new/"
-	TokenRefresh = "/token/refresh/"
+	TokenNewPath     = "/token/new/"
+	TokenRefreshPath = "/token/refresh/"
 )

@@ -16,7 +16,7 @@ func TestClient_New(t *testing.T) {
 		t.Parallel()
 
 		client := nordigen.New(
-			getSecrets(),
+			getSecrets(t),
 		)
 		assert.NotNil(t, client)
 
@@ -40,7 +40,43 @@ func TestClient_New(t *testing.T) {
 	})
 }
 
-func getSecrets() (string, string) {
+func TestClient_Refresh(t *testing.T) {
+	t.Parallel()
+
+	t.Run("refresh a client token", func(t *testing.T) {
+		t.Parallel()
+
+		client := nordigen.New(
+			getSecrets(t),
+		)
+		assert.NotNil(t, client)
+
+		token, err := client.Token().New()
+		assert.NoError(t, err)
+		assert.NotNil(t, token)
+
+		refreshedToken, err := client.Token().Refresh(token.Refresh)
+		assert.NoError(t, err)
+		assert.NotNil(t, refreshedToken)
+	})
+
+	t.Run("refresh a client token with invalid refresh token", func(t *testing.T) {
+		t.Parallel()
+
+		client := nordigen.New(
+			getSecrets(t),
+		)
+		assert.NotNil(t, client)
+
+		refreshedToken, err := client.Token().Refresh("invalid")
+		assert.Error(t, err)
+		assert.Nil(t, refreshedToken)
+	})
+}
+
+func getSecrets(t *testing.T) (string, string) {
+	t.Helper()
+
 	secretID := os.Getenv("NORDIGEN_SECRET_ID")
 	secretKey := os.Getenv("NORDIGEN_SECRET_KEY")
 	if secretID == "" || secretKey == "" {

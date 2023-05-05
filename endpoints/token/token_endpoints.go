@@ -18,3 +18,17 @@ func (c Client) New() (*Token, error) {
 
 	return &token, nil
 }
+
+func (c Client) Refresh(refreshToken string) (*Token, error) {
+	var token Token
+	refreshCreds := map[string]string{
+		"refresh": refreshToken,
+	}
+
+	err := c.HTTP.Post(consts.TokenRefreshPath, nil, refreshCreds, &token)
+	if err != nil {
+		return nil, err
+	}
+
+	return &token, nil
+}
