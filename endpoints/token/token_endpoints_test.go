@@ -24,6 +24,20 @@ func TestClient_New(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 	})
+
+	t.Run("create a new client token with invalid secret id", func(t *testing.T) {
+		t.Parallel()
+
+		client := nordigen.New(
+			"invalid",
+			"invalid",
+		)
+		assert.NotNil(t, client)
+
+		token, err := client.Token().New()
+		assert.Error(t, err)
+		assert.Nil(t, token)
+	})
 }
 
 func getSecrets() (string, string) {
