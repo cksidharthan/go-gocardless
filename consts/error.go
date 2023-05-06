@@ -11,6 +11,7 @@ type Error struct {
 	Detail     string    `json:"detail"`
 	StatusCode int       `json:"status_code"`
 	Reference  Reference `json:"reference"`
+	Type       string    `json:"type"`
 }
 
 type Reference struct {
