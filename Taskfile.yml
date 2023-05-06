@@ -32,7 +32,7 @@ tasks:
       - go generate ./...
     desc: Run go generate on the project
 
-  unit-test:
+  test:
     desc: "Running unit Tests"
     cmds:
       - go test -coverprofile cover.out ./...
