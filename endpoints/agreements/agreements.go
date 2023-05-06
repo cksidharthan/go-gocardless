@@ -11,10 +11,22 @@ type AgreementRequestBody struct {
 
 type Agreement struct {
 	ID                 string    `json:"id"`
-	Created            string    `json:"created"`
+	Created            time.Time `json:"created"`
 	InstitutionID      string    `json:"institution_id"`
 	MaxHistoricalDays  int       `json:"max_historical_days"`
 	AccessValidForDays int       `json:"access_valid_for_days"`
 	AccessScope        []string  `json:"access_scope"`
 	Accepted           time.Time `json:"accepted"`
+}
+
+type ListRequestParams struct {
+	Limit  int `url:"limit,omitempty" json:"limit,omitempty"`
+	Offset int `url:"offset,omitempty" json:"offset,omitempty"`
+}
+
+type Agreements struct {
+	Count    int         `json:"count"`
+	Next     string      `json:"next"`
+	Previous string      `json:"previous"`
+	Results  []Agreement `json:"results"`
 }

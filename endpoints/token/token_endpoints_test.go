@@ -2,9 +2,10 @@ package token_test
 
 import (
 	"context"
-	"github.com/weportfolio/go-nordigen/consts"
 	"net/http"
 	"testing"
+
+	"github.com/weportfolio/go-nordigen/consts"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/weportfolio/go-nordigen"

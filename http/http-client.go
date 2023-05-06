@@ -5,8 +5,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/weportfolio/go-nordigen/consts"
 	"net/http"
+
+	"github.com/weportfolio/go-nordigen/consts"
 )
 
 const (

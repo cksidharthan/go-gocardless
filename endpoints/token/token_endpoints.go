@@ -2,6 +2,7 @@ package token
 
 import (
 	"context"
+
 	"github.com/weportfolio/go-nordigen/consts"
 )
 
