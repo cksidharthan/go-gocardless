@@ -1,0 +1,33 @@
+name: Pull Request
+on: [pull_request]
+jobs:
+  build:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    env:
+      GOPRIVATE: "github.com/weportfolio/*"
+      NORDIGEN_SECRET_ID: ${{ secrets.NORDIGEN_SECRET_ID }}
+      NORDIGEN_SECRET_KEY: ${{ secrets.NORDIGEN_SECRET_KEY }}
+    steps:
+      # Checkout
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # Go
+      - name: Setup go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "^1.18"
+      - run: go install honnef.co/go/tools/cmd/staticcheck@latest
+      - run: go mod vendor
+      - run: go test -race ./... -coverpkg=./... -coverprofile=coverage.out
+      - run: go test -race ./... -json > test.out\
+      - run: go vet ./... 2> govet.out || true # Ignore status code
+      - run: staticcheck ./... > golint.out || true # Ignore status code
+
+      # Check project version
+      - name: Project version
+        id: vars
+        run: echo ::set-output name=version::$(cat .version)

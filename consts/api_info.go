@@ -81,3 +81,7 @@ const (
 	UKInstitutionID         = "GB"
 	USAInstitutionID        = "US"
 )
+
+const (
+	TestInstitutionID = "REVOLUT_REVOLT21"
+)

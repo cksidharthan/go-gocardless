@@ -33,6 +33,5 @@ func RequestHeadersWithAuth(token string) map[string]string {
 func RequestHeaders() map[string]string {
 	return map[string]string{
 		"Content-Type": "application/json",
-		"Accept":       "application/json",
 	}
 }
