@@ -38,7 +38,7 @@ const (
 )
 
 const (
-	RequisitionsPath = "/requisitions/"
+	RequisitionsPath = "/requisitions"
 	RequisitionPath  = "/requisitions/:id/"
 )
 
@@ -80,6 +80,10 @@ const (
 	SwedenInstitutionID     = "SE"
 	UKInstitutionID         = "GB"
 	USAInstitutionID        = "US"
+)
+
+const (
+	LangEN = "EN"
 )
 
 const (

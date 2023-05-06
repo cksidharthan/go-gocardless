@@ -7,10 +7,10 @@ import (
 )
 
 type Error struct {
-	Summary    string `json:"summary"`
-	Detail     string `json:"detail"`
-	StatusCode int    `json:"status_code"`
-	Reference  string `json:"reference"`
+	Summary    string    `json:"summary"`
+	Detail     string    `json:"detail"`
+	StatusCode int       `json:"status_code"`
+	Reference  Reference `json:"reference"`
 }
 
 type Reference struct {
