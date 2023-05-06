@@ -35,4 +35,27 @@ func TestClient_Post(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 	})
+
+	t.Run("create a new agreement with invalid token", func(t *testing.T) {
+		t.Parallel()
+
+		client := nordigen.New(
+			consts.GetSecrets(t),
+		)
+		assert.NotNil(t, client)
+
+		agreementRequestBody := agreements.AgreementRequestBody{
+			InstitutionID:      consts.TestInstitutionID,
+			MaxHistoricalDays:  "180",
+			AccessValidForDays: "2",
+			AccessScope:        []string{"balances", "details", "transactions"},
+		}
+
+		agreement, err := client.Agreements().Post(context.Background(), "invalid", agreementRequestBody)
+		assert.Error(t, err)
+		assert.Nil(t, agreement)
+
+		checkErr := consts.ExtractError(err)
+		assert.Equal(t, 401, checkErr.StatusCode)
+	})
 }
