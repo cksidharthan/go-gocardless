@@ -155,3 +155,111 @@ func TestClient_List(t *testing.T) {
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }
+
+func TestClient_Delete(t *testing.T) {
+	t.Parallel()
+
+	t.Run("delete an agreement", func(t *testing.T) {
+		t.Parallel()
+
+		client := nordigen.New(
+			consts.GetSecrets(t),
+		)
+		assert.NotNil(t, client)
+
+		token, err := client.Token().New(context.Background())
+		assert.NoError(t, err)
+		assert.NotNil(t, token)
+
+		agreementRequestBody := agreements.AgreementRequestBody{
+			InstitutionID:      consts.TestInstitutionID,
+			MaxHistoricalDays:  "180",
+			AccessValidForDays: "2",
+			AccessScope:        []string{"balances", "details", "transactions"},
+		}
+
+		agreement, err := client.Agreements().Post(context.Background(), token.Access, agreementRequestBody)
+		assert.NoError(t, err)
+		assert.NotNil(t, agreement)
+		assert.Equal(t, consts.TestInstitutionID, agreement.InstitutionID)
+
+		err = client.Agreements().Delete(context.Background(), token.Access, agreement.ID)
+		assert.NoError(t, err)
+	})
+
+	t.Run("delete an agreement with invalid token", func(t *testing.T) {
+		t.Parallel()
+
+		client := nordigen.New(
+			consts.GetSecrets(t),
+		)
+		assert.NotNil(t, client)
+
+		err := client.Agreements().Delete(context.Background(), "invalid", "invalid")
+		assert.Error(t, err)
+
+		checkErr := consts.ExtractError(err)
+		assert.Equal(t, 401, checkErr.StatusCode)
+	})
+}
+
+func TestClient_Update(t *testing.T) {
+	t.Parallel()
+
+	t.Run("update an agreement", func(t *testing.T) {
+		t.Parallel()
+
+		client := nordigen.New(
+			consts.GetSecrets(t),
+		)
+		assert.NotNil(t, client)
+
+		token, err := client.Token().New(context.Background())
+		assert.NoError(t, err)
+		assert.NotNil(t, token)
+
+		agreementRequestBody := agreements.AgreementRequestBody{
+			InstitutionID:      consts.TestInstitutionID,
+			MaxHistoricalDays:  "180",
+			AccessValidForDays: "2",
+			AccessScope:        []string{"balances", "details", "transactions"},
+		}
+
+		agreement, err := client.Agreements().Post(context.Background(), token.Access, agreementRequestBody)
+		assert.NoError(t, err)
+		assert.NotNil(t, agreement)
+		assert.Equal(t, consts.TestInstitutionID, agreement.InstitutionID)
+
+		updateRequestBody := agreements.UpdateRequestBody{
+			UserAgent: "test",
+			IPAddress: "0.0.0.0",
+		}
+
+		updatedAgreement, err := client.Agreements().Update(context.Background(), token.Access, agreement.ID, updateRequestBody)
+		assert.NoError(t, err)
+		assert.NotNil(t, updatedAgreement)
+		assert.Equal(t, consts.TestInstitutionID, updatedAgreement.InstitutionID)
+		assert.Equal(t, agreement.ID, updatedAgreement.ID)
+	})
+
+	t.Run("update an agreement with invalid token", func(t *testing.T) {
+		t.Parallel()
+
+		client := nordigen.New(
+			consts.GetSecrets(t),
+		)
+		assert.NotNil(t, client)
+
+		updateRequestBody := agreements.UpdateRequestBody{
+			UserAgent: "test",
+			IPAddress: "",
+		}
+
+		updatedAgreement, err := client.Agreements().Update(context.Background(), "invalid", "invalid", updateRequestBody)
+		assert.Error(t, err)
+		assert.Nil(t, updatedAgreement)
+
+		checkErr := consts.ExtractError(err)
+		assert.Equal(t, 401, checkErr.StatusCode)
+	})
+}

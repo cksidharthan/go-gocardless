@@ -30,3 +30,8 @@ type Agreements struct {
 	Previous string      `json:"previous"`
 	Results  []Agreement `json:"results"`
 }
+
+type UpdateRequestBody struct {
+	UserAgent string `json:"user_agent"`
+	IPAddress string `json:"ip_address"`
+}

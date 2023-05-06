@@ -15,3 +15,10 @@ tasks:
     cmds:
       - go generate ./...
     desc: Run go generate on the project
+
+  unit-test:
+    desc: "Running unit Tests"
+    cmds:
+      - go test -coverprofile cover.out ./...
+      - go tool cover -html=cover.out -o cover.html
+      - go-cover-treemap -coverprofile cover.out > assets/cover-treemap.svg
