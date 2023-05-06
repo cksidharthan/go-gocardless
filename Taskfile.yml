@@ -42,5 +42,5 @@ tasks:
   tag:
     desc: "Tagging the release"
     cmds:
-      - git tag -a v$(cat VERSION) -m "Release v$(cat VERSION)"
-      - git push origin v$(cat VERSION)
+      - git tag -a $(cat .version) -m "Release v$(cat .version)"
+      - git push origin $(cat .version)
