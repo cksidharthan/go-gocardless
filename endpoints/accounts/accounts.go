@@ -1,5 +1,7 @@
 package accounts
 
+import "time"
+
 type Account struct {
 	ID            string `json:"id"`
 	Created       string `json:"created"`
@@ -45,14 +47,21 @@ type TransactionParams struct {
 }
 
 type Transaction struct {
-	TransactionID                     string  `json:"transactionId"`
-	DebtorName                        string  `json:"debtorName"`
-	BankTransactionCode               string  `json:"bankTransactionCode"`
-	BookingDate                       string  `json:"bookingDate"`
-	ValueDate                         string  `json:"valueDate"`
-	RemittanceInformationUnstructured string  `json:"remittanceInformationUnstructured"`
-	TransactionAmount                 Amount  `json:"transactionAmount"`
-	DebtorAccount                     Account `json:"debtorAccount"`
+	TransactionID                          string    `json:"transactionId"`
+	BookingDate                            string    `json:"bookingDate"`
+	ValueDate                              string    `json:"valueDate"`
+	BookingDateTime                        time.Time `json:"bookingDateTime"`
+	ValueDateTime                          time.Time `json:"valueDateTime"`
+	TransactionAmount                      Amount    `json:"transactionAmount"`
+	CreditorName                           string    `json:"creditorName"`
+	CreditorAccount                        Account   `json:"creditorAccount"`
+	DebtorName                             string    `json:"debtorName"`
+	DebtorAccount                          Account   `json:"debtorAccount"`
+	BankTransactionCode                    string    `json:"bankTransactionCode"`
+	RemittanceInformationUnstructured      string    `json:"remittanceInformationUnstructured"`
+	RemittanceInformationUnstructuredArray []string  `json:"remittanceInformationUnstructuredArray"`
+	ProprietaryBankTransactionCode         string    `json:"proprietaryBankTransactionCode"`
+	InternalTransactionID                  string    `json:"internalTransactionId"`
 }
 
 type Transactions struct {
