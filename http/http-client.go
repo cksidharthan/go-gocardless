@@ -104,7 +104,7 @@ func (c *Client) newRequest(ctx context.Context, method, path string, headers ma
 			return nil, fmt.Errorf("failed to create request: %w", err)
 		}
 	} else {
-		req, err = http.NewRequestWithContext(ctx, method, url, nil)
+		req, err = http.NewRequestWithContext(ctx, method, url, http.NoBody)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create request: %w", err)
 		}

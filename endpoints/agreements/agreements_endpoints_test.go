@@ -28,7 +28,7 @@ func TestClient_Post(t *testing.T) {
 			InstitutionID:      consts.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
-			AccessScope:        []string{"balances", "transactions"},
+			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
 		agreement, err := client.Agreements().Post(context.Background(), token.Access, agreementRequestBody)
