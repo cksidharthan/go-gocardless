@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOPRIVATE: "github.com/weportfolio/*"
+      NORDIGEN_SECRET_ID: ${{ secrets.NORDIGEN_SECRET_ID }}
+      NORDIGEN_SECRET_KEY: ${{ secrets.NORDIGEN_SECRET_KEY }}
     steps:
       # Checkout
       - name: Checkout
@@ -21,13 +23,7 @@ jobs:
       - run: go install honnef.co/go/tools/cmd/staticcheck@latest
       - run: go mod vendor
       - run: go test -race ./... -coverpkg=./... -coverprofile=coverage.out
-        env:
-          NORDIGEN_SECRET_ID: ${{ secrets.NORDIGEN_SECRET_ID }}
-          NORDIGEN_SECRET_KEY: ${{ secrets.NORDIGEN_SECRET_KEY }}
       - run: go test -race ./... -json > test.out\
-        env:
-          NORDIGEN_SECRET_ID: ${{ secrets.NORDIGEN_SECRET_ID }}
-          NORDIGEN_SECRET_KEY: ${{ secrets.NORDIGEN_SECRET_KEY }}
       - run: go vet ./... 2> govet.out || true # Ignore status code
       - run: staticcheck ./... > golint.out || true # Ignore status code
 
