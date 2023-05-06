@@ -23,7 +23,13 @@ jobs:
       - run: go install honnef.co/go/tools/cmd/staticcheck@latest
       - run: go mod vendor
       - run: go test -race ./... -coverpkg=./... -coverprofile=coverage.out
-      - run: go test -race ./... -json > test.out
+        env:
+          NORDIGEN_SECRET_ID: ${{ secrets.NORDIGEN_SECRET_ID }}
+          NORDIGEN_SECRET_KEY: ${{ secrets.NORDIGEN_SECRET_KEY }}
+      - run: go test -race ./... -json > test.out\
+        env:
+          NORDIGEN_SECRET_ID: ${{ secrets.NORDIGEN_SECRET_ID }}
+          NORDIGEN_SECRET_KEY: ${{ secrets.NORDIGEN_SECRET_KEY }}
       - run: go vet ./... 2> govet.out || true # Ignore status code
       - run: staticcheck ./... > golint.out || true # Ignore status code
 
