@@ -35,10 +35,12 @@ func (c Client) List(ctx context.Context, token string, requestParams *ListReque
 
 	endpointURL := consts.AgreementsEndusersPath
 	if requestParams != nil {
-		endpointURL = endpointURL + "?" + strconv.Itoa(requestParams.Limit)
-	}
-	if requestParams != nil {
-		endpointURL = endpointURL + "&" + strconv.Itoa(requestParams.Offset)
+		if requestParams.Limit != 0 {
+			endpointURL = endpointURL + "?" + strconv.Itoa(requestParams.Limit)
+		}
+		if requestParams.Offset != 0 {
+			endpointURL = endpointURL + "&" + strconv.Itoa(requestParams.Offset)
+		}
 	}
 
 	err := c.HTTP.Get(ctx, endpointURL, consts.RequestHeadersWithAuth(token), &agreements)

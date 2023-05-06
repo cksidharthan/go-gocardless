@@ -33,3 +33,10 @@ type Requisition struct {
 	AccountSelection  bool      `json:"account_selection"`
 	RedirectImmediate bool      `json:"redirect_immediate"`
 }
+
+type Requisitions struct {
+	Count    int           `json:"count"`
+	Next     string        `json:"next"`
+	Previous string        `json:"previous"`
+	Results  []Requisition `json:"results"`
+}
