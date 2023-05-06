@@ -35,10 +35,12 @@ func (c Client) List(ctx context.Context, token string, requestParams *ListReque
 
 	endpointURL := consts.AgreementsEndusersPath
 	if requestParams != nil {
-		endpointURL = endpointURL + "?" + strconv.Itoa(requestParams.Limit)
-	}
-	if requestParams != nil {
-		endpointURL = endpointURL + "&" + strconv.Itoa(requestParams.Offset)
+		if requestParams.Limit != 0 {
+			endpointURL = endpointURL + "?" + strconv.Itoa(requestParams.Limit)
+		}
+		if requestParams.Offset != 0 {
+			endpointURL = endpointURL + "&" + strconv.Itoa(requestParams.Offset)
+		}
 	}
 
 	err := c.HTTP.Get(ctx, endpointURL, consts.RequestHeadersWithAuth(token), &agreements)
@@ -62,6 +64,7 @@ func (c Client) Delete(ctx context.Context, token string, agreementID string) er
 // Update updates an agreement for the enduser by agreementID
 func (c Client) Update(ctx context.Context, token string, agreementID string, updateRequestBody UpdateRequestBody) (*Agreement, error) {
 	var agreement Agreement
+	// TODO: Check if this is the correct way to update an agreement, The API doc wants to append a /accept to the end of the URL
 	err := c.HTTP.Put(ctx, consts.AgreementsEndusersPath+agreementID, consts.RequestHeadersWithAuth(token), updateRequestBody, &agreement)
 	if err != nil {
 		return nil, err

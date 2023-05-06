@@ -4,6 +4,7 @@ import (
 	"github.com/weportfolio/go-nordigen/endpoints/accounts"
 	"github.com/weportfolio/go-nordigen/endpoints/agreements"
 	"github.com/weportfolio/go-nordigen/endpoints/institutions"
+	"github.com/weportfolio/go-nordigen/endpoints/requisitions"
 	"github.com/weportfolio/go-nordigen/endpoints/token"
 )
 
@@ -13,6 +14,7 @@ type Client struct {
 	token        *token.Client
 	institutions *institutions.Client
 	agreements   *agreements.Client
+	requisitions *requisitions.Client
 }
 
 // Accounts returns the accounts client
@@ -35,6 +37,11 @@ func (c *Client) Agreements() *agreements.Client {
 	return c.agreements
 }
 
+// Requisitions returns the requisitions client
+func (c *Client) Requisitions() *requisitions.Client {
+	return c.requisitions
+}
+
 // New creates a new Nordigen client
 func New(secretID, secretKey string) *Client {
 	return &Client{
@@ -42,5 +49,6 @@ func New(secretID, secretKey string) *Client {
 		token:        token.New(secretID, secretKey),
 		institutions: institutions.New(secretID, secretKey),
 		agreements:   agreements.New(secretID, secretKey),
+		requisitions: requisitions.New(secretID, secretKey),
 	}
 }

@@ -1,14 +1,18 @@
 version: 3
 
 includes:
-  sub:
-    taskfile: templates/taskfiles/Taskfile.yml
+  go:
+    taskfile: templates/taskfiles/go.yml
     optional: true
+  docker:
+    taskfile: templates/taskfiles/docker.yml
+    optional: true
+
 
 tasks:
   submodule:
     cmds:
-      - git submodule update --init --recursive
+      - git submodule update --remote --recursive
     desc: Update submodules
 
   gen:
