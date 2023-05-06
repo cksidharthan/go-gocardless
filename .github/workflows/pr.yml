@@ -6,8 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOPRIVATE: "github.com/weportfolio/*"
-      NORDIGEN_SECRET_ID: ${{ secrets.NORDIGEN_SECRET_ID }}
-      NORDIGEN_SECRET_KEY: ${{ secrets.NORDIGEN_SECRET_KEY }}
     steps:
       # Checkout
       - name: Checkout
