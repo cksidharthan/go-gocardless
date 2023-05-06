@@ -38,3 +38,9 @@ tasks:
       - go test -coverprofile cover.out ./...
       - go tool cover -html=cover.out -o cover.html
       - go-cover-treemap -coverprofile cover.out > assets/cover-treemap.svg
+
+  tag:
+    desc: "Tagging the release"
+    cmds:
+      - git tag -a v$(cat VERSION) -m "Release v$(cat VERSION)"
+      - git push origin v$(cat VERSION)
