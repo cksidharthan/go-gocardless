@@ -1,5 +1,17 @@
 version: 3
 
+env:
+  TAG_NAME:
+    sh: |
+      # check if the current branch is main
+      if [ "$(git rev-parse --abbrev-ref HEAD)" = "main" ]; then
+          # if the current branch is main, then use the version as is
+          cat .version
+      else
+          # if the current branch is not main, then append the branch hash to the version
+          cat .version | git rev-parse --short HEAD
+      fi
+
 tasks:
   dev-setup:
     desc: "Setup development environment"
@@ -42,8 +54,8 @@ tasks:
   tag:
     desc: "Tagging the release"
     cmds:
-      - git tag -a $(cat .version) -m "Release v$(cat .version)"
-      - git push origin $(cat .version)
+      - git tag -a {{.TAG_NAME}} -m "Release {{.TAG_NAME}}"
+      - git push origin {{.TAG_NAME}}
 
   pr-check:
     desc: "PR Check"
