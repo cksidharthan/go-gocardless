@@ -13,9 +13,12 @@ type Account struct {
 }
 
 type Balance struct {
-	BalanceAmount Amount `json:"balanceAmount"`
-	BalanceType   string `json:"balanceType"`
-	ReferenceDate string `json:"referenceDate"`
+	BalanceAmount            Amount    `json:"balanceAmount"`
+	BalanceType              string    `json:"balanceType"`
+	ReferenceDate            string    `json:"referenceDate"`
+	CreditLimitIncluded      bool      `json:"creditLimitIncluded"`
+	LastChangeDateTime       time.Time `json:"lastChangeDateTime"`
+	LastCommittedTransaction string    `json:"lastCommittedTransaction"`
 }
 
 type Amount struct {
@@ -27,14 +30,25 @@ type Balances struct {
 	Balances []Balance `json:"balances"`
 }
 
+// AccountDetails is a struct that contains the details of an account
+// Some fields might be empty, depending on the account type
 type AccountDetails struct {
-	ResourceID      string `json:"resourceId"`
-	IBAN            string `json:"iban"`
-	Currency        string `json:"currency"`
-	OwnerName       string `json:"ownerName"`
-	Name            string `json:"name"`
-	Product         string `json:"product"`
-	CashAccountType string `json:"cashAccountType"`
+	BBAN                     string `json:"bban"`
+	BIC                      string `json:"bic"`
+	Details                  string `json:"details"`
+	DisplayName              string `json:"displayName"`
+	LinkedAccounts           string `json:"linkedAccounts"`
+	MisISDN                  string `json:"misIsdn"`
+	OwnerAddressUnstructured string `json:"ownerAddressUnstructured"`
+	Status                   string `json:"status"`
+	Usage                    string `json:"usage"`
+	ResourceID               string `json:"resourceId"`
+	IBAN                     string `json:"iban"`
+	Currency                 string `json:"currency"`
+	OwnerName                string `json:"ownerName"`
+	Name                     string `json:"name"`
+	Product                  string `json:"product"`
+	CashAccountType          string `json:"cashAccountType"`
 }
 
 type Details struct {
@@ -62,6 +76,22 @@ type Transaction struct {
 	RemittanceInformationUnstructuredArray []string  `json:"remittanceInformationUnstructuredArray"`
 	ProprietaryBankTransactionCode         string    `json:"proprietaryBankTransactionCode"`
 	InternalTransactionID                  string    `json:"internalTransactionId"`
+
+	AdditionalInformation           string  `json:"additionalInformation"`
+	AdditionalInformationStructured string  `json:"additionalInformationStructured"`
+	BalanceAfterTransaction         Balance `json:"balanceAfterTransaction"`
+	CheckID                         string  `json:"checkId"`
+	CreditorID                      string  `json:"creditorId"`
+	// CurrencyExchange                []string `json:"currencyExchange"`
+	DebtorAgent                          string   `json:"debtorAgent"`
+	EndToEndID                           string   `json:"endToEndId"`
+	EntryReference                       string   `json:"entryReference"`
+	MandateID                            string   `json:"mandateId"`
+	MerchantCategoryCode                 string   `json:"merchantCategoryCode"`
+	RemittanceInformationStructured      string   `json:"remittanceInformationStructured"`
+	RemittanceInformationStructuredArray []string `json:"remittanceInformationStructuredArray"`
+	UltimateCollector                    string   `json:"ultimateCreditor"`
+	UltimateDebtor                       string   `json:"ultimateDebtor"`
 }
 
 type Transactions struct {
