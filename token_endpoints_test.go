@@ -2,11 +2,11 @@ package nordigen_test
 
 import (
 	"context"
-	"github.com/weportfolio/go-nordigen"
 	"net/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/weportfolio/go-nordigen"
 )
 
 func TestClient_NewToken(t *testing.T) {

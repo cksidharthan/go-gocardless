@@ -2,12 +2,12 @@ package nordigen_test
 
 import (
 	"context"
-	"github.com/weportfolio/go-nordigen"
 	"math/rand"
 	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/weportfolio/go-nordigen"
 )
 
 func TestClient_CreateRequisition(t *testing.T) {

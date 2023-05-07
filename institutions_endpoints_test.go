@@ -2,10 +2,10 @@ package nordigen_test
 
 import (
 	"context"
-	"github.com/weportfolio/go-nordigen"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/weportfolio/go-nordigen"
 )
 
 func TestClient_ListInstitutions(t *testing.T) {

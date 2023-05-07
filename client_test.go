@@ -2,9 +2,10 @@ package nordigen_test
 
 import (
 	"fmt"
-	"github.com/weportfolio/go-nordigen"
 	"os"
 	"testing"
+
+	"github.com/weportfolio/go-nordigen"
 )
 
 func getTestClient(t *testing.T) *nordigen.Client {
