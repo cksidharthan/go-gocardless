@@ -27,7 +27,7 @@ const (
 )
 
 const (
-	RequisitionsPath = "/requisitions"
+	RequisitionsPath = "/requisitions/"
 )
 
 const (
