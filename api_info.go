@@ -7,20 +7,15 @@ const (
 )
 
 const (
-	AccountsPath            = "/accounts/"
-	AccountBalancesPath     = "/accounts/:id/balances/"
-	AccountDetailsPath      = "/accounts/:id/details/"
-	AccountTransactionsPath = "/accounts/:id/transactions/"
+	AccountsPath = "/accounts/"
 )
 
 const (
-	AccountsTransactionPremiumPath = "/accounts/premium/:id/transactions/"
+	AccountsTransactionPremiumPath = "/accounts/premium/"
 )
 
 const (
-	AgreementsEndusersPath      = "/agreements/enduser/"
-	AgreementsEnduserPath       = "/agreements/enduser/:id/"
-	AgreementsEnduserAcceptPath = "/agreements/enduser/:id/accept/"
+	AgreementsEndusersPath = "/agreements/enduser/"
 )
 
 const (
@@ -28,18 +23,11 @@ const (
 )
 
 const (
-	PaymentsPath                  = "/payments/"
-	PaymentPath                   = "/payments/:id/"
-	PaymentSubmitPath             = "/payments/:id/submit/"
-	PaymentsAccountPath           = "/payments/account/"
-	PaymentsCreditorsPath         = "/payments/creditors/"
-	PaymentsCreditorPath          = "/payments/creditors/:id/"
-	PaymentsFieldsInstitutionPath = "/payments/fields/:institution_id/"
+	PaymentsPath = "/payments/"
 )
 
 const (
 	RequisitionsPath = "/requisitions"
-	RequisitionPath  = "/requisitions/:id/"
 )
 
 const (
