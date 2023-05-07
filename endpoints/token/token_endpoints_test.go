@@ -5,10 +5,9 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/weportfolio/go-nordigen/consts"
-
 	"github.com/stretchr/testify/assert"
-	"github.com/weportfolio/go-nordigen"
+	"github.com/weportfolio/go-nordigen/consts"
+	"github.com/weportfolio/go-nordigen/endpoints/tests"
 )
 
 func TestClient_New(t *testing.T) {
@@ -17,9 +16,7 @@ func TestClient_New(t *testing.T) {
 	t.Run("create a new client token", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -30,13 +27,10 @@ func TestClient_New(t *testing.T) {
 	t.Run("create a new client token with invalid secret id", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			"invalid",
-			"invalid",
-		)
-		assert.NotNil(t, client)
+		invalidClient := tests.GetInvalidTestClient(t)
+		assert.NotNil(t, invalidClient)
 
-		token, err := client.Token().New(context.Background())
+		token, err := invalidClient.Token().New(context.Background())
 		assert.Error(t, err)
 		assert.Nil(t, token)
 
@@ -51,9 +45,7 @@ func TestClient_Refresh(t *testing.T) {
 	t.Run("refresh a client token", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -68,9 +60,7 @@ func TestClient_Refresh(t *testing.T) {
 	t.Run("refresh a client token with invalid refresh token", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		refreshedToken, err := client.Token().Refresh(context.Background(), "invalid")

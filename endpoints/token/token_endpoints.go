@@ -10,8 +10,8 @@ import (
 func (c Client) New(ctx context.Context) (*Token, error) {
 	var token Token
 	accessCreds := map[string]string{
-		"secret_id":  c.HTTP.APISecretID,
-		"secret_key": c.HTTP.APISecretKey,
+		"secret_id":  c.SecretID,
+		"secret_key": c.SecretKey,
 	}
 
 	err := c.HTTP.Post(ctx, consts.TokenNewPath, consts.RequestHeaders(), accessCreds, &token)

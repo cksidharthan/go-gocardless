@@ -10,11 +10,6 @@ import (
 	"github.com/weportfolio/go-nordigen/consts"
 )
 
-const (
-	NordigenBaseURL = "https://ob.nordigen.com/api"
-	APIVersion      = "v2"
-)
-
 //go:generate mockgen -source=http-client.go -destination=mocks/mock_client.go -package=mocks -build_flags=-mod=mod
 type IClient interface {
 	Get(ctx context.Context, path string, headers map[string]string, response interface{}) error
@@ -30,12 +25,10 @@ type Client struct {
 	APISecretKey string
 }
 
-func New(secretID, secretKey string) *Client {
+func New(baseURL, apiVersion string) *Client {
 	return &Client{
-		BaseURL:      NordigenBaseURL,
-		APIVersion:   APIVersion,
-		APISecretID:  secretID,
-		APISecretKey: secretKey,
+		BaseURL:    baseURL,
+		APIVersion: apiVersion,
 	}
 }
 

@@ -5,6 +5,7 @@ import (
 	"github.com/weportfolio/go-nordigen/endpoints/agreements"
 	"github.com/weportfolio/go-nordigen/endpoints/institutions"
 	"github.com/weportfolio/go-nordigen/endpoints/payments"
+	"github.com/weportfolio/go-nordigen/endpoints/premium"
 	"github.com/weportfolio/go-nordigen/endpoints/requisitions"
 	"github.com/weportfolio/go-nordigen/endpoints/token"
 )
@@ -17,6 +18,7 @@ type Client struct {
 	agreements   *agreements.Client
 	requisitions *requisitions.Client
 	payments     *payments.Client
+	premium      *premium.Client
 }
 
 // Accounts returns the accounts client
@@ -49,14 +51,27 @@ func (c *Client) Payments() *payments.Client {
 	return c.payments
 }
 
+// Premium returns the premium client
+func (c *Client) Premium() *premium.Client {
+	return c.premium
+}
+
+type Config struct {
+	BaseURL    string
+	APIVersion string
+	SecretID   string
+	SecretKey  string
+}
+
 // New creates a new Nordigen client
-func New(secretID, secretKey string) *Client {
+func New(config *Config) *Client {
 	return &Client{
-		accounts:     accounts.New(secretID, secretKey),
-		token:        token.New(secretID, secretKey),
-		institutions: institutions.New(secretID, secretKey),
-		agreements:   agreements.New(secretID, secretKey),
-		requisitions: requisitions.New(secretID, secretKey),
-		payments:     payments.New(secretID, secretKey),
+		accounts:     accounts.New(config.BaseURL, config.APIVersion),
+		token:        token.New(config.BaseURL, config.APIVersion, config.SecretID, config.SecretKey),
+		institutions: institutions.New(config.BaseURL, config.APIVersion),
+		agreements:   agreements.New(config.BaseURL, config.APIVersion),
+		requisitions: requisitions.New(config.BaseURL, config.APIVersion),
+		payments:     payments.New(config.BaseURL, config.APIVersion),
+		premium:      premium.New(config.BaseURL, config.APIVersion),
 	}
 }

@@ -2,14 +2,15 @@ package requisitions_test
 
 import (
 	"context"
-	"github.com/stretchr/testify/assert"
-	"github.com/weportfolio/go-nordigen"
-	"github.com/weportfolio/go-nordigen/consts"
-	"github.com/weportfolio/go-nordigen/endpoints/agreements"
-	"github.com/weportfolio/go-nordigen/endpoints/requisitions"
 	"math/rand"
 	"strconv"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/weportfolio/go-nordigen/consts"
+	"github.com/weportfolio/go-nordigen/endpoints/agreements"
+	"github.com/weportfolio/go-nordigen/endpoints/requisitions"
+	"github.com/weportfolio/go-nordigen/endpoints/tests"
 )
 
 func TestClient_Post(t *testing.T) {
@@ -18,9 +19,7 @@ func TestClient_Post(t *testing.T) {
 	t.Run("create new requisition", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -58,9 +57,7 @@ func TestClient_Post(t *testing.T) {
 	t.Run("create new requisition with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		requisitionRequestBody := &requisitions.RequisitionRequestBody{
@@ -88,9 +85,7 @@ func TestClient_List(t *testing.T) {
 	t.Run("list requisitions", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -132,9 +127,7 @@ func TestClient_List(t *testing.T) {
 	t.Run("list requisitions with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		responseRequisitions, err := client.Requisitions().List(context.Background(), "invalid", nil)
@@ -152,9 +145,7 @@ func TestClient_Fetch(t *testing.T) {
 	t.Run("fetch requisition", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -196,9 +187,7 @@ func TestClient_Fetch(t *testing.T) {
 	t.Run("fetch requisition with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		responseRequisition, err := client.Requisitions().Fetch(context.Background(), "invalid", "invalid")
@@ -216,9 +205,7 @@ func TestClient_Delete(t *testing.T) {
 	t.Run("delete requisition", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -259,9 +246,7 @@ func TestClient_Delete(t *testing.T) {
 	t.Run("delete requisition with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		err := client.Requisitions().Delete(context.Background(), "invalid", "invalid")

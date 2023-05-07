@@ -2,21 +2,7 @@ package consts
 
 import (
 	"fmt"
-	"os"
-	"testing"
 )
-
-func GetSecrets(t *testing.T) (string, string) {
-	t.Helper()
-
-	secretID := os.Getenv("NORDIGEN_SECRET_ID")
-	secretKey := os.Getenv("NORDIGEN_SECRET_KEY")
-	if secretID == "" || secretKey == "" {
-		fmt.Println("NORDIGEN_SECRET_ID or NORDIGEN_SECRET_KEY is not set")
-	}
-
-	return secretID, secretKey
-}
 
 func RequestHeadersWithAuth(token string) map[string]string {
 	authHeaders := map[string]string{

@@ -18,4 +18,7 @@ Usage examples can be found in the respective package's `*_test.go` files.
 
 Please refer to [Nordigen API Documentation](https://nordigen.com/en/docs/account-information/integration/parameters-and-responses/) for more information on the endpoints.
 
+# Issues
+Please report any issues or bugs to the [Issues](https://github.com/weportfolio/go-nordigen/issues) page.
+
 ![pkg-coverage-img](./assets/cover-treemap.svg?raw=true "Unit Test Coverage Image")

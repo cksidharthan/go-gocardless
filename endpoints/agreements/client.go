@@ -6,8 +6,8 @@ type Client struct {
 	HTTP http.IClient
 }
 
-func New(secretID, secretKey string) *Client {
+func New(baseURL, apiVersion string) *Client {
 	return &Client{
-		HTTP: http.New(secretID, secretKey),
+		HTTP: http.New(baseURL, apiVersion),
 	}
 }

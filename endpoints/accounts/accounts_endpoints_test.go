@@ -2,11 +2,11 @@ package accounts_test
 
 import (
 	"context"
-	"github.com/stretchr/testify/assert"
-	"github.com/weportfolio/go-nordigen"
-	"github.com/weportfolio/go-nordigen/consts"
 	"os"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/weportfolio/go-nordigen/endpoints/tests"
 )
 
 func TestClient_GetAccount(t *testing.T) {
@@ -15,9 +15,7 @@ func TestClient_GetAccount(t *testing.T) {
 	t.Run("get an account by ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -34,9 +32,7 @@ func TestClient_GetAccount(t *testing.T) {
 	t.Run("get an account by invalid ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -55,9 +51,7 @@ func TestClient_GetBalances(t *testing.T) {
 	t.Run("get balances for an account by ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -74,9 +68,7 @@ func TestClient_GetBalances(t *testing.T) {
 	t.Run("get balances for an account by invalid ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -95,9 +87,7 @@ func TestClient_GetDetails(t *testing.T) {
 	t.Run("get details for an account by ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -114,9 +104,7 @@ func TestClient_GetDetails(t *testing.T) {
 	t.Run("get details for an account by invalid ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -135,9 +123,7 @@ func TestClient_GetTransactions(t *testing.T) {
 	t.Run("get transactions for an account by ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -154,9 +140,7 @@ func TestClient_GetTransactions(t *testing.T) {
 	t.Run("get transactions for an account by invalid ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())

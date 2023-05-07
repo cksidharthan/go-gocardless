@@ -4,8 +4,9 @@ import (
 	"context"
 	"testing"
 
+	"github.com/weportfolio/go-nordigen/endpoints/tests"
+
 	"github.com/stretchr/testify/assert"
-	"github.com/weportfolio/go-nordigen"
 	"github.com/weportfolio/go-nordigen/consts"
 )
 
@@ -15,9 +16,7 @@ func TestClient_List(t *testing.T) {
 	t.Run("list institutions", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())
@@ -32,9 +31,7 @@ func TestClient_List(t *testing.T) {
 	t.Run("list institutions with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		institutions, err := client.Institutions().List(context.Background(), "invalid", consts.NetherlandsInstitution, true)

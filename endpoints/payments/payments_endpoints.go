@@ -2,8 +2,9 @@ package payments
 
 import (
 	"context"
-	"github.com/weportfolio/go-nordigen/consts"
 	"strconv"
+
+	"github.com/weportfolio/go-nordigen/consts"
 )
 
 // List returns a list of payments

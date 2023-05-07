@@ -2,10 +2,10 @@ package payments_test
 
 import (
 	"context"
-	"github.com/stretchr/testify/assert"
-	"github.com/weportfolio/go-nordigen"
-	"github.com/weportfolio/go-nordigen/consts"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/weportfolio/go-nordigen/endpoints/tests"
 )
 
 func TestClient_List(t *testing.T) {
@@ -15,9 +15,7 @@ func TestClient_List(t *testing.T) {
 	t.Run("list payments", func(t *testing.T) {
 		t.Parallel()
 
-		client := nordigen.New(
-			consts.GetSecrets(t),
-		)
+		client := tests.GetTestClient(t)
 		assert.NotNil(t, client)
 
 		token, err := client.Token().New(context.Background())

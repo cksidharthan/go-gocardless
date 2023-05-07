@@ -44,3 +44,11 @@ tasks:
     cmds:
       - git tag -a $(cat .version) -m "Release v$(cat .version)"
       - git push origin $(cat .version)
+
+  pr-check:
+    desc: "PR Check"
+    cmds:
+      - task deps
+      - task fmt
+      - task lint
+      - task test

@@ -3,6 +3,7 @@ package accounts
 import (
 	"context"
 	"fmt"
+
 	"github.com/weportfolio/go-nordigen/consts"
 )
 
