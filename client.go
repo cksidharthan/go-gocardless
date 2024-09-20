@@ -10,8 +10,8 @@ type Client struct {
 type Config struct {
 	BaseURL    string
 	APIVersion string
-	SecretID   string
-	SecretKey  string
+	SecretID   string `json:"secret_id"`
+	SecretKey  string `json:"secret_key"`
 	HTTP       *Client
 }
 

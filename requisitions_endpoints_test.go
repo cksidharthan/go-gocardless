@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/cksidharthan/go-nordigen"
 	"github.com/stretchr/testify/assert"
-	"github.com/weportfolio/go-nordigen"
 )
 
 func TestClient_CreateRequisition(t *testing.T) {

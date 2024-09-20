@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/weportfolio/go-nordigen"
+	"github.com/cksidharthan/go-nordigen"
 )
 
 func getTestClient(t *testing.T) *nordigen.Client {

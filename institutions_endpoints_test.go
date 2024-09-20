@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/cksidharthan/go-nordigen"
 	"github.com/stretchr/testify/assert"
-	"github.com/weportfolio/go-nordigen"
 )
 
 func TestClient_ListInstitutions(t *testing.T) {

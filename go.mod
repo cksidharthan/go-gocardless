@@ -1,6 +1,6 @@
-module github.com/weportfolio/go-nordigen
+module github.com/cksidharthan/go-nordigen
 
-go 1.20
+go 1.22.7
 
 require github.com/stretchr/testify v1.8.2
 

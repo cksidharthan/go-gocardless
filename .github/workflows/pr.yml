@@ -5,7 +5,7 @@ jobs:
     name: Unit tests
     runs-on: ubuntu-latest
     env:
-      GOPRIVATE: "github.com/weportfolio/*"
+      GOPRIVATE: "github.com/cksidharthan/*"
       NORDIGEN_SECRET_ID: ${{ secrets.NORDIGEN_SECRET_ID }}
       NORDIGEN_SECRET_KEY: ${{ secrets.NORDIGEN_SECRET_KEY }}
       NORDIGEN_TEST_ACCOUNT_ID: ${{ secrets.NORDIGEN_TEST_ACCOUNT_ID }}
