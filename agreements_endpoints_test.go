@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	nordigen "github.com/cksidharthan/go-gocardless"
+	gocardless "github.com/cksidharthan/go-gocardless"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -22,8 +22,8 @@ func TestClient_CreateAgreement(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
@@ -32,7 +32,7 @@ func TestClient_CreateAgreement(t *testing.T) {
 		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
-		assert.Equal(t, nordigen.TestInstitutionID, agreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 	})
 
 	t.Run("create a new agreement with invalid token", func(t *testing.T) {
@@ -42,8 +42,8 @@ func TestClient_CreateAgreement(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
@@ -53,7 +53,7 @@ func TestClient_CreateAgreement(t *testing.T) {
 		assert.Error(t, err)
 		assert.Nil(t, agreement)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }
@@ -72,8 +72,8 @@ func TestClient_FetchAgreement(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
@@ -82,7 +82,7 @@ func TestClient_FetchAgreement(t *testing.T) {
 		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
-		assert.Equal(t, nordigen.TestInstitutionID, agreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
 		fetchedAgreement, err := client.FetchAgreement(context.Background(), token.Access, agreement.ID)
 		assert.NoError(t, err)
@@ -97,8 +97,8 @@ func TestClient_FetchAgreement(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
@@ -108,7 +108,7 @@ func TestClient_FetchAgreement(t *testing.T) {
 		assert.Error(t, err)
 		assert.Nil(t, agreement)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }
@@ -143,7 +143,7 @@ func TestClient_ListAgreements(t *testing.T) {
 		assert.Error(t, err)
 		assert.Nil(t, responseAgreements)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }
@@ -162,8 +162,8 @@ func TestClient_DeleteAgreement(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
@@ -172,7 +172,7 @@ func TestClient_DeleteAgreement(t *testing.T) {
 		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
-		assert.Equal(t, nordigen.TestInstitutionID, agreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
 		err = client.DeleteAgreement(context.Background(), token.Access, agreement.ID)
 		assert.NoError(t, err)
@@ -188,7 +188,7 @@ func TestClient_DeleteAgreement(t *testing.T) {
 		err = client.DeleteAgreement(context.Background(), "invalid", "invalid")
 		assert.Error(t, err)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }
@@ -207,8 +207,8 @@ func TestClient_UpdateAgreement(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
@@ -217,9 +217,9 @@ func TestClient_UpdateAgreement(t *testing.T) {
 		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
-		assert.Equal(t, nordigen.TestInstitutionID, agreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
-		updateRequestBody := nordigen.UpdateRequestBody{
+		updateRequestBody := gocardless.UpdateRequestBody{
 			UserAgent: "test",
 			IPAddress: "0.0.0.0",
 		}
@@ -227,7 +227,7 @@ func TestClient_UpdateAgreement(t *testing.T) {
 		updatedAgreement, err := client.UpdateAgreement(context.Background(), token.Access, agreement.ID, updateRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, updatedAgreement)
-		assert.Equal(t, nordigen.TestInstitutionID, updatedAgreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, updatedAgreement.InstitutionID)
 		assert.Equal(t, agreement.ID, updatedAgreement.ID)
 	})
 
@@ -238,7 +238,7 @@ func TestClient_UpdateAgreement(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		updateRequestBody := nordigen.UpdateRequestBody{
+		updateRequestBody := gocardless.UpdateRequestBody{
 			UserAgent: "test",
 			IPAddress: "",
 		}
@@ -247,7 +247,7 @@ func TestClient_UpdateAgreement(t *testing.T) {
 		assert.Error(t, err)
 		assert.Nil(t, updatedAgreement)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }

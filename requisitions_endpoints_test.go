@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"testing"
 
-	nordigen "github.com/cksidharthan/go-gocardless"
+	gocardless "github.com/cksidharthan/go-gocardless"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -24,8 +24,8 @@ func TestClient_CreateRequisition(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
@@ -34,14 +34,14 @@ func TestClient_CreateRequisition(t *testing.T) {
 		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
-		assert.Equal(t, nordigen.TestInstitutionID, agreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
-		requisitionRequestBody := &nordigen.RequisitionRequestBody{
+		requisitionRequestBody := &gocardless.RequisitionRequestBody{
 			Redirect:          "https://example.com",
-			InstitutionID:     nordigen.TestInstitutionID,
+			InstitutionID:     gocardless.TestInstitutionID,
 			Agreement:         agreement.ID,
 			Reference:         strconv.Itoa(rand.Intn(1000000000000000000)),
-			UserLanguage:      nordigen.LangEN,
+			UserLanguage:      gocardless.LangEN,
 			AccountSelection:  false,
 			RedirectImmediate: false,
 		}
@@ -49,7 +49,7 @@ func TestClient_CreateRequisition(t *testing.T) {
 		requisition, err := client.CreateRequisition(context.Background(), token.Access, requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
-		assert.Equal(t, nordigen.TestInstitutionID, requisition.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 	})
 
 	t.Run("create new requisition with invalid token", func(t *testing.T) {
@@ -59,12 +59,12 @@ func TestClient_CreateRequisition(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		requisitionRequestBody := &nordigen.RequisitionRequestBody{
+		requisitionRequestBody := &gocardless.RequisitionRequestBody{
 			Redirect:          "https://example.com",
-			InstitutionID:     nordigen.TestInstitutionID,
+			InstitutionID:     gocardless.TestInstitutionID,
 			Agreement:         "invalid",
 			Reference:         "12345",
-			UserLanguage:      nordigen.LangEN,
+			UserLanguage:      gocardless.LangEN,
 			AccountSelection:  false,
 			RedirectImmediate: false,
 		}
@@ -73,7 +73,7 @@ func TestClient_CreateRequisition(t *testing.T) {
 		assert.Error(t, err)
 		assert.Nil(t, requisition)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }
@@ -92,8 +92,8 @@ func TestClient_ListRequisitions(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
@@ -102,14 +102,14 @@ func TestClient_ListRequisitions(t *testing.T) {
 		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
-		assert.Equal(t, nordigen.TestInstitutionID, agreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
-		requisitionRequestBody := &nordigen.RequisitionRequestBody{
+		requisitionRequestBody := &gocardless.RequisitionRequestBody{
 			Redirect:          "https://example.com",
-			InstitutionID:     nordigen.TestInstitutionID,
+			InstitutionID:     gocardless.TestInstitutionID,
 			Agreement:         agreement.ID,
 			Reference:         strconv.Itoa(rand.Intn(1000000000000000000)),
-			UserLanguage:      nordigen.LangEN,
+			UserLanguage:      gocardless.LangEN,
 			AccountSelection:  false,
 			RedirectImmediate: false,
 		}
@@ -117,7 +117,7 @@ func TestClient_ListRequisitions(t *testing.T) {
 		requisition, err := client.CreateRequisition(context.Background(), token.Access, requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
-		assert.Equal(t, nordigen.TestInstitutionID, requisition.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 
 		responseRequisitions, err := client.ListRequisitions(context.Background(), token.Access, nil)
 		assert.NoError(t, err)
@@ -135,7 +135,7 @@ func TestClient_ListRequisitions(t *testing.T) {
 		assert.Error(t, err)
 		assert.Nil(t, responseRequisitions)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }
@@ -154,8 +154,8 @@ func TestClient_FetchRequisition(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
@@ -164,14 +164,14 @@ func TestClient_FetchRequisition(t *testing.T) {
 		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
-		assert.Equal(t, nordigen.TestInstitutionID, agreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
-		requisitionRequestBody := &nordigen.RequisitionRequestBody{
+		requisitionRequestBody := &gocardless.RequisitionRequestBody{
 			Redirect:          "https://example.com",
-			InstitutionID:     nordigen.TestInstitutionID,
+			InstitutionID:     gocardless.TestInstitutionID,
 			Agreement:         agreement.ID,
 			Reference:         strconv.Itoa(rand.Intn(1000000000000000000)),
-			UserLanguage:      nordigen.LangEN,
+			UserLanguage:      gocardless.LangEN,
 			AccountSelection:  false,
 			RedirectImmediate: false,
 		}
@@ -179,7 +179,7 @@ func TestClient_FetchRequisition(t *testing.T) {
 		requisition, err := client.CreateRequisition(context.Background(), token.Access, requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
-		assert.Equal(t, nordigen.TestInstitutionID, requisition.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 
 		responseRequisition, err := client.FetchRequisition(context.Background(), token.Access, requisition.ID)
 		assert.NoError(t, err)
@@ -197,7 +197,7 @@ func TestClient_FetchRequisition(t *testing.T) {
 		assert.Error(t, err)
 		assert.Nil(t, responseRequisition)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }
@@ -216,8 +216,8 @@ func TestClient_DeleteRequisition(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
@@ -226,14 +226,14 @@ func TestClient_DeleteRequisition(t *testing.T) {
 		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
-		assert.Equal(t, nordigen.TestInstitutionID, agreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
-		requisitionRequestBody := &nordigen.RequisitionRequestBody{
+		requisitionRequestBody := &gocardless.RequisitionRequestBody{
 			Redirect:          "https://example.com",
-			InstitutionID:     nordigen.TestInstitutionID,
+			InstitutionID:     gocardless.TestInstitutionID,
 			Agreement:         agreement.ID,
 			Reference:         strconv.Itoa(rand.Intn(1000000000000000000)),
-			UserLanguage:      nordigen.LangEN,
+			UserLanguage:      gocardless.LangEN,
 			AccountSelection:  false,
 			RedirectImmediate: false,
 		}
@@ -241,7 +241,7 @@ func TestClient_DeleteRequisition(t *testing.T) {
 		requisition, err := client.CreateRequisition(context.Background(), token.Access, requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
-		assert.Equal(t, nordigen.TestInstitutionID, requisition.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 
 		err = client.DeleteRequisition(context.Background(), token.Access, requisition.ID)
 		assert.NoError(t, err)
@@ -257,7 +257,7 @@ func TestClient_DeleteRequisition(t *testing.T) {
 		err = client.DeleteRequisition(context.Background(), "invalid", "invalid")
 		assert.Error(t, err)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }

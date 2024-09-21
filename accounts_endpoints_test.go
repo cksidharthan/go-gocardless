@@ -22,7 +22,7 @@ func TestClient_GetAccount(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		testAccountID := os.Getenv("NORDIGEN_TEST_ACCOUNT_ID")
+		testAccountID := os.Getenv("GOCARDLESS_TEST_ACCOUNT_ID")
 
 		account, err := client.GetAccount(context.Background(), token.Access, testAccountID)
 		assert.NoError(t, err)
@@ -60,7 +60,7 @@ func TestClient_GetAccountBalances(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		testAccountID := os.Getenv("NORDIGEN_TEST_ACCOUNT_ID")
+		testAccountID := os.Getenv("GOCARDLESS_TEST_ACCOUNT_ID")
 
 		balances, err := client.GetAccountBalances(context.Background(), token.Access, testAccountID)
 		assert.NoError(t, err)
@@ -98,7 +98,7 @@ func TestClient_GetAccountDetails(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		testAccountID := os.Getenv("NORDIGEN_TEST_ACCOUNT_ID")
+		testAccountID := os.Getenv("GOCARDLESS_TEST_ACCOUNT_ID")
 
 		details, err := client.GetAccountDetails(context.Background(), token.Access, testAccountID)
 		assert.NoError(t, err)
@@ -136,7 +136,7 @@ func TestClient_GetAccountTransactions(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		testAccountID := os.Getenv("NORDIGEN_TEST_ACCOUNT_ID")
+		testAccountID := os.Getenv("GOCARDLESS_TEST_ACCOUNT_ID")
 
 		transactions, err := client.GetAccountTransactions(context.Background(), token.Access, testAccountID)
 		assert.NoError(t, err)

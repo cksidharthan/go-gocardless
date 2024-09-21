@@ -6,9 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOPRIVATE: "github.com/cksidharthan/*"
-      NORDIGEN_SECRET_ID: ${{ secrets.NORDIGEN_SECRET_ID }}
-      NORDIGEN_SECRET_KEY: ${{ secrets.NORDIGEN_SECRET_KEY }}
-      NORDIGEN_TEST_ACCOUNT_ID: ${{ secrets.NORDIGEN_TEST_ACCOUNT_ID }}
+      GOCARDLESS_SECRET_ID: ${{ secrets.GOCARDLESS_SECRET_ID }}
+      GOCARDLESS_SECRET_KEY: ${{ secrets.GOCARDLESS_SECRET_KEY }}
+      GOCARDLESS_TEST_ACCOUNT_ID: ${{ secrets.GOCARDLESS_TEST_ACCOUNT_ID }}
     steps:
       # Checkout
       - name: Checkout

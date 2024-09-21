@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	nordigen "github.com/cksidharthan/go-gocardless"
+	gocardless "github.com/cksidharthan/go-gocardless"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -35,7 +35,7 @@ func TestClient_NewToken(t *testing.T) {
 		assert.Error(t, err)
 		assert.Nil(t, token)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, http.StatusUnauthorized, checkErr.StatusCode)
 	})
 }
