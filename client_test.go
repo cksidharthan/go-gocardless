@@ -8,7 +8,7 @@ import (
 	"github.com/cksidharthan/go-nordigen"
 )
 
-func getTestClient(t *testing.T) *nordigen.Client {
+func getTestClient(t *testing.T) (*nordigen.Client, error) {
 	t.Helper()
 
 	secretID := os.Getenv("NORDIGEN_SECRET_ID")
@@ -27,7 +27,7 @@ func getTestClient(t *testing.T) *nordigen.Client {
 	)
 }
 
-func getInvalidTestClient(t *testing.T) *nordigen.Client {
+func getInvalidTestClient(t *testing.T) (*nordigen.Client, error) {
 	t.Helper()
 
 	return nordigen.New(

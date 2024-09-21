@@ -15,7 +15,8 @@ func TestClient_NewToken(t *testing.T) {
 	t.Run("create a new client token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -26,7 +27,8 @@ func TestClient_NewToken(t *testing.T) {
 	t.Run("create a new client token with invalid secret id", func(t *testing.T) {
 		t.Parallel()
 
-		invalidClient := getInvalidTestClient(t)
+		invalidClient, err := getInvalidTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, invalidClient)
 
 		token, err := invalidClient.NewToken(context.Background())
@@ -44,7 +46,8 @@ func TestClient_Refresh(t *testing.T) {
 	t.Run("refresh a client token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -59,7 +62,8 @@ func TestClient_Refresh(t *testing.T) {
 	t.Run("refresh a client token with invalid refresh token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		refreshedToken, err := client.RefreshToken(context.Background(), "invalid")

@@ -16,7 +16,8 @@ func TestClient_CreateRequisition(t *testing.T) {
 	t.Run("create new requisition", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -54,7 +55,8 @@ func TestClient_CreateRequisition(t *testing.T) {
 	t.Run("create new requisition with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		requisitionRequestBody := &nordigen.RequisitionRequestBody{
@@ -82,7 +84,8 @@ func TestClient_ListRequisitions(t *testing.T) {
 	t.Run("list requisitions", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -124,7 +127,8 @@ func TestClient_ListRequisitions(t *testing.T) {
 	t.Run("list requisitions with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		responseRequisitions, err := client.ListRequisitions(context.Background(), "invalid", nil)
@@ -142,7 +146,8 @@ func TestClient_FetchRequisition(t *testing.T) {
 	t.Run("fetch requisition", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -184,7 +189,8 @@ func TestClient_FetchRequisition(t *testing.T) {
 	t.Run("fetch requisition with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		responseRequisition, err := client.FetchRequisition(context.Background(), "invalid", "invalid")
@@ -202,7 +208,8 @@ func TestClient_DeleteRequisition(t *testing.T) {
 	t.Run("delete requisition", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -243,10 +250,11 @@ func TestClient_DeleteRequisition(t *testing.T) {
 	t.Run("delete requisition with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		err := client.DeleteRequisition(context.Background(), "invalid", "invalid")
+		err = client.DeleteRequisition(context.Background(), "invalid", "invalid")
 		assert.Error(t, err)
 
 		checkErr := nordigen.ExtractError(err)

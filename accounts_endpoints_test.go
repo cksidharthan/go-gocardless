@@ -14,8 +14,9 @@ func TestClient_GetAccount(t *testing.T) {
 	t.Run("get an account by ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
 		assert.NotNil(t, client)
+		assert.NoError(t, err)
 
 		token, err := client.NewToken(context.Background())
 		assert.NoError(t, err)
@@ -31,7 +32,8 @@ func TestClient_GetAccount(t *testing.T) {
 	t.Run("get an account by invalid ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -50,7 +52,8 @@ func TestClient_GetAccountBalances(t *testing.T) {
 	t.Run("get balances for an account by ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -67,7 +70,8 @@ func TestClient_GetAccountBalances(t *testing.T) {
 	t.Run("get balances for an account by invalid ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -86,7 +90,8 @@ func TestClient_GetAccountDetails(t *testing.T) {
 	t.Run("get details for an account by ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -103,7 +108,8 @@ func TestClient_GetAccountDetails(t *testing.T) {
 	t.Run("get details for an account by invalid ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -122,7 +128,8 @@ func TestClient_GetAccountTransactions(t *testing.T) {
 	t.Run("get transactions for an account by ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -139,7 +146,8 @@ func TestClient_GetAccountTransactions(t *testing.T) {
 	t.Run("get transactions for an account by invalid ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())

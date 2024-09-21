@@ -14,7 +14,8 @@ func TestClient_CreateAgreement(t *testing.T) {
 	t.Run("create a new agreement", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -37,7 +38,8 @@ func TestClient_CreateAgreement(t *testing.T) {
 	t.Run("create a new agreement with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		agreementRequestBody := nordigen.AgreementRequestBody{
@@ -62,7 +64,8 @@ func TestClient_FetchAgreement(t *testing.T) {
 	t.Run("fetch an agreement", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -90,7 +93,8 @@ func TestClient_FetchAgreement(t *testing.T) {
 	t.Run("fetch an agreement with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		agreementRequestBody := nordigen.AgreementRequestBody{
@@ -115,7 +119,8 @@ func TestClient_ListAgreements(t *testing.T) {
 	t.Run("list agreements", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -130,7 +135,8 @@ func TestClient_ListAgreements(t *testing.T) {
 	t.Run("list agreements with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		responseAgreements, err := client.ListAgreements(context.Background(), "invalid", nil)
@@ -148,7 +154,8 @@ func TestClient_DeleteAgreement(t *testing.T) {
 	t.Run("delete an agreement", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -174,10 +181,11 @@ func TestClient_DeleteAgreement(t *testing.T) {
 	t.Run("delete an agreement with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		err := client.DeleteAgreement(context.Background(), "invalid", "invalid")
+		err = client.DeleteAgreement(context.Background(), "invalid", "invalid")
 		assert.Error(t, err)
 
 		checkErr := nordigen.ExtractError(err)
@@ -191,7 +199,8 @@ func TestClient_UpdateAgreement(t *testing.T) {
 	t.Run("update an agreement", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -225,7 +234,8 @@ func TestClient_UpdateAgreement(t *testing.T) {
 	t.Run("update an agreement with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		updateRequestBody := nordigen.UpdateRequestBody{

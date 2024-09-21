@@ -14,7 +14,8 @@ func TestClient_ListInstitutions(t *testing.T) {
 	t.Run("list institutions", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -29,7 +30,8 @@ func TestClient_ListInstitutions(t *testing.T) {
 	t.Run("list institutions with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		institutions, err := client.ListInstitutions(context.Background(), "invalid", nordigen.NetherlandsInstitution, true)
@@ -47,7 +49,8 @@ func TestClient_FetchInstitution(t *testing.T) {
 	t.Run("fetch institution", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
@@ -63,7 +66,8 @@ func TestClient_FetchInstitution(t *testing.T) {
 	t.Run("fetch institution with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		institution, err := client.FetchInstitution(context.Background(), "invalid", nordigen.TestInstitutionID)
