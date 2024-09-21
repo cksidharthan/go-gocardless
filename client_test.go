@@ -1,11 +1,11 @@
-package nordigen_test
+package gocardless_test
 
 import (
 	"fmt"
 	"os"
 	"testing"
 
-	"github.com/cksidharthan/go-nordigen"
+	nordigen "github.com/cksidharthan/go-gocardless"
 )
 
 func getTestClient(t *testing.T) (*nordigen.Client, error) {

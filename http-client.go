@@ -1,4 +1,4 @@
-package nordigen
+package gocardless
 
 import (
 	"bytes"

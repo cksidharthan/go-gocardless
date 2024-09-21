@@ -22,6 +22,6 @@ Please refer to [Gocardless Bank Account Data API](https://developer.gocardless.
 - Payments - Since this needs some access to the API which is paid, I will not be implementing this since I can't test. If you would like to contribute, please feel free to open a PR.
 
 # Issues
-Please report any issues or bugs to the [Issues](https://github.com/cksidharthan/go-nordigen/issues) page.
+Please report any issues or bugs to the [Issues](https://github.com/cksidharthan/go-gocardless/issues) page.
 
 ![pkg-coverage-img](./assets/cover-treemap.svg?raw=true "Unit Test Coverage Image")

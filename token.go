@@ -1,4 +1,4 @@
-package nordigen
+package gocardless
 
 type Token struct {
 	Access         string `json:"access"`

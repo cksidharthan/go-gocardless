@@ -1,11 +1,11 @@
-package nordigen_test
+package gocardless_test
 
 import (
 	"context"
 	"net/http"
 	"testing"
 
-	"github.com/cksidharthan/go-nordigen"
+	nordigen "github.com/cksidharthan/go-gocardless"
 	"github.com/stretchr/testify/assert"
 )
 

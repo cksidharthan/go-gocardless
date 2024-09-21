@@ -1,4 +1,4 @@
-package nordigen
+package gocardless
 
 type Payment struct {
 	PaymentID        string         `json:"payment_id"`

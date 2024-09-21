@@ -1,4 +1,4 @@
-package nordigen_test
+package gocardless_test
 
 import (
 	"context"
