@@ -2,10 +2,8 @@ package gocardless_test
 
 import (
 	"context"
-	"net/http"
 	"testing"
 
-	gocardless "github.com/cksidharthan/go-gocardless"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -28,15 +26,8 @@ func TestClient_NewToken(t *testing.T) {
 		t.Parallel()
 
 		invalidClient, err := getInvalidTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, invalidClient)
-
-		token, err := invalidClient.NewToken(context.Background())
 		assert.Error(t, err)
-		assert.Nil(t, token)
-
-		checkErr := gocardless.ExtractError(err)
-		assert.Equal(t, http.StatusUnauthorized, checkErr.StatusCode)
+		assert.Nil(t, invalidClient)
 	})
 }
 

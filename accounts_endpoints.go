@@ -5,10 +5,10 @@ import (
 )
 
 // GetAccount retrieves an account by ID
-func (c Client) GetAccount(ctx context.Context, token string, accountID string) (*Account, error) {
+func (c Client) GetAccount(ctx context.Context, accountID string) (*Account, error) {
 	var account Account
 	endpointURL := AccountsPath + accountID
-	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(token), &account)
+	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(c.Token.Access), &account)
 	if err != nil {
 		return nil, err
 	}
@@ -16,10 +16,10 @@ func (c Client) GetAccount(ctx context.Context, token string, accountID string) 
 }
 
 // GetAccountBalances retrieves balances for an account by ID
-func (c Client) GetAccountBalances(ctx context.Context, token string, accountID string) (*Balances, error) {
+func (c Client) GetAccountBalances(ctx context.Context, accountID string) (*Balances, error) {
 	var balances Balances
 	endpointURL := AccountsPath + accountID + "/balances"
-	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(token), &balances)
+	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(c.Token.Access), &balances)
 	if err != nil {
 		return nil, err
 	}
@@ -28,10 +28,10 @@ func (c Client) GetAccountBalances(ctx context.Context, token string, accountID 
 }
 
 // GetAccountDetails retrieves details for an account by ID
-func (c Client) GetAccountDetails(ctx context.Context, token string, accountID string) (*Details, error) {
+func (c Client) GetAccountDetails(ctx context.Context, accountID string) (*Details, error) {
 	var details Details
 	endpointURL := AccountsPath + accountID + "/details"
-	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(token), &details)
+	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(c.Token.Access), &details)
 	if err != nil {
 		return nil, err
 	}
@@ -40,10 +40,10 @@ func (c Client) GetAccountDetails(ctx context.Context, token string, accountID s
 }
 
 // GetAccountTransactions retrieves transactions for an account by ID
-func (c Client) GetAccountTransactions(ctx context.Context, token string, accountID string) (*Transactions, error) {
+func (c Client) GetAccountTransactions(ctx context.Context, accountID string) (*Transactions, error) {
 	var transactions Transactions
 	endpointURL := AccountsPath + accountID + "/transactions"
-	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(token), &transactions)
+	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(c.Token.Access), &transactions)
 	if err != nil {
 		return nil, err
 	}
