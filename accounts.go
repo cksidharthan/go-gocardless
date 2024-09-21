@@ -1,7 +1,5 @@
 package gocardless
 
-import "time"
-
 type Account struct {
 	ID            string `json:"id"`
 	Created       string `json:"created"`
@@ -13,12 +11,12 @@ type Account struct {
 }
 
 type Balance struct {
-	BalanceAmount            Amount    `json:"balanceAmount"`
-	BalanceType              string    `json:"balanceType"`
-	ReferenceDate            string    `json:"referenceDate"`
-	CreditLimitIncluded      bool      `json:"creditLimitIncluded"`
-	LastChangeDateTime       time.Time `json:"lastChangeDateTime"`
-	LastCommittedTransaction string    `json:"lastCommittedTransaction"`
+	BalanceAmount            Amount               `json:"balanceAmount"`
+	BalanceType              string               `json:"balanceType"`
+	ReferenceDate            string               `json:"referenceDate"`
+	CreditLimitIncluded      bool                 `json:"creditLimitIncluded"`
+	LastChangeDateTime       TimeWithTimeZoneInfo `json:"lastChangeDateTime"`
+	LastCommittedTransaction string               `json:"lastCommittedTransaction"`
 }
 
 type Amount struct {
@@ -61,21 +59,21 @@ type TransactionParams struct {
 }
 
 type Transaction struct {
-	TransactionID                          string    `json:"transactionId"`
-	BookingDate                            string    `json:"bookingDate"`
-	ValueDate                              string    `json:"valueDate"`
-	BookingDateTime                        time.Time `json:"bookingDateTime"`
-	ValueDateTime                          time.Time `json:"valueDateTime"`
-	TransactionAmount                      Amount    `json:"transactionAmount"`
-	CreditorName                           string    `json:"creditorName"`
-	CreditorAccount                        Account   `json:"creditorAccount"`
-	DebtorName                             string    `json:"debtorName"`
-	DebtorAccount                          Account   `json:"debtorAccount"`
-	BankTransactionCode                    string    `json:"bankTransactionCode"`
-	RemittanceInformationUnstructured      string    `json:"remittanceInformationUnstructured"`
-	RemittanceInformationUnstructuredArray []string  `json:"remittanceInformationUnstructuredArray"`
-	ProprietaryBankTransactionCode         string    `json:"proprietaryBankTransactionCode"`
-	InternalTransactionID                  string    `json:"internalTransactionId"`
+	TransactionID                          string               `json:"transactionId"`
+	BookingDate                            string               `json:"bookingDate"`
+	ValueDate                              string               `json:"valueDate"`
+	BookingDateTime                        TimeWithTimeZoneInfo `json:"bookingDateTime"`
+	ValueDateTime                          TimeWithTimeZoneInfo `json:"valueDateTime"`
+	TransactionAmount                      Amount               `json:"transactionAmount"`
+	CreditorName                           string               `json:"creditorName"`
+	CreditorAccount                        Account              `json:"creditorAccount"`
+	DebtorName                             string               `json:"debtorName"`
+	DebtorAccount                          Account              `json:"debtorAccount"`
+	BankTransactionCode                    string               `json:"bankTransactionCode"`
+	RemittanceInformationUnstructured      string               `json:"remittanceInformationUnstructured"`
+	RemittanceInformationUnstructuredArray []string             `json:"remittanceInformationUnstructuredArray"`
+	ProprietaryBankTransactionCode         string               `json:"proprietaryBankTransactionCode"`
+	InternalTransactionID                  string               `json:"internalTransactionId"`
 
 	AdditionalInformation           string  `json:"additionalInformation"`
 	AdditionalInformationStructured string  `json:"additionalInformationStructured"`

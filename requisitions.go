@@ -1,7 +1,5 @@
 package gocardless
 
-import "time"
-
 type ListRequisitionsParams struct {
 	Limit  int `url:"limit,omitempty" json:"limit,omitempty"`
 	Offset int `url:"offset,omitempty" json:"offset,omitempty"`
@@ -19,19 +17,19 @@ type RequisitionRequestBody struct {
 }
 
 type Requisition struct {
-	ID                string    `json:"id"`
-	Created           time.Time `json:"created"`
-	Redirect          string    `json:"redirect"`
-	Status            string    `json:"status"`
-	InstitutionID     string    `json:"institution_id"`
-	Agreement         string    `json:"agreement"`
-	Reference         string    `json:"reference"`
-	Accounts          []string  `json:"accounts"`
-	UserLanguage      string    `json:"user_language"`
-	Link              string    `json:"link"`
-	SSN               string    `json:"ssn"`
-	AccountSelection  bool      `json:"account_selection"`
-	RedirectImmediate bool      `json:"redirect_immediate"`
+	ID                string               `json:"id"`
+	Created           TimeWithTimeZoneInfo `json:"created"`
+	Redirect          string               `json:"redirect"`
+	Status            string               `json:"status"`
+	InstitutionID     string               `json:"institution_id"`
+	Agreement         string               `json:"agreement"`
+	Reference         string               `json:"reference"`
+	Accounts          []string             `json:"accounts"`
+	UserLanguage      string               `json:"user_language"`
+	Link              string               `json:"link"`
+	SSN               string               `json:"ssn"`
+	AccountSelection  bool                 `json:"account_selection"`
+	RedirectImmediate bool                 `json:"redirect_immediate"`
 }
 
 type Requisitions struct {
