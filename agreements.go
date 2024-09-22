@@ -8,13 +8,13 @@ type AgreementRequestBody struct {
 }
 
 type Agreement struct {
-	ID                 string                `json:"id"`
-	Created            TimeWithTimeZoneInfoZ `json:"created"`
-	InstitutionID      string                `json:"institution_id"`
-	MaxHistoricalDays  int                   `json:"max_historical_days"`
-	AccessValidForDays int                   `json:"access_valid_for_days"`
-	AccessScope        []string              `json:"access_scope"`
-	Accepted           TimeWithTimeZoneInfoZ `json:"accepted"`
+	ID                 string                 `json:"id"`
+	Created            *TimeWithTimeZoneInfoZ `json:"created"`
+	InstitutionID      string                 `json:"institution_id"`
+	MaxHistoricalDays  int                    `json:"max_historical_days"`
+	AccessValidForDays int                    `json:"access_valid_for_days"`
+	AccessScope        []string               `json:"access_scope"`
+	Accepted           *TimeWithTimeZoneInfoZ `json:"accepted"`
 }
 
 type ListAgreementsParams struct {

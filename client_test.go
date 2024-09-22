@@ -19,7 +19,7 @@ func getTestClient(t *testing.T) (*gocardless.Client, error) {
 
 	return gocardless.New(
 		&gocardless.Config{
-			BaseURL:    gocardless.NordigenBaseURL,
+			BaseURL:    gocardless.BaseURL,
 			APIVersion: gocardless.APIVersion,
 			SecretID:   secretID,
 			SecretKey:  secretKey,
@@ -30,12 +30,13 @@ func getTestClient(t *testing.T) (*gocardless.Client, error) {
 func getInvalidTestClient(t *testing.T) (*gocardless.Client, error) {
 	t.Helper()
 
-	return gocardless.New(
-		&gocardless.Config{
-			BaseURL:    gocardless.NordigenBaseURL,
-			APIVersion: gocardless.APIVersion,
-			SecretID:   "invalid",
-			SecretKey:  "invalid",
+	return &gocardless.Client{
+		HTTP:      gocardless.NewHTTPClient(gocardless.BaseURL, gocardless.APIVersion),
+		SecretID:  "invalid",
+		SecretKey: "invalid",
+		Token: &gocardless.Token{
+			Access:  "invalid",
+			Refresh: "invalid",
 		},
-	)
+	}, nil
 }
