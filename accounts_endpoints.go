@@ -2,6 +2,9 @@ package gocardless
 
 import (
 	"context"
+	"fmt"
+	"net/url"
+	"time"
 )
 
 // GetAccount retrieves an account by ID
@@ -40,10 +43,27 @@ func (c Client) GetAccountDetails(ctx context.Context, accountID string) (*Detai
 }
 
 // GetAccountTransactions retrieves transactions for an account by ID
-func (c Client) GetAccountTransactions(ctx context.Context, accountID string) (*Transactions, error) {
+// dateFrom and dateTo are optional parameters.
+func (c Client) GetAccountTransactions(ctx context.Context, accountID string, dateFrom, dateTo *time.Time) (*Transactions, error) {
 	var transactions Transactions
 	endpointURL := AccountsPath + accountID + "/transactions"
-	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(c.Token.Access), &transactions)
+
+	// Build query parameters
+	u, err := url.Parse(endpointURL)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse URL: %w", err)
+	}
+
+	q := u.Query()
+	if dateFrom != nil {
+		q.Set("date_from", dateFrom.Format(time.RFC3339))
+	}
+	if dateTo != nil {
+		q.Set("date_to", dateTo.Format(time.RFC3339))
+	}
+	u.RawQuery = q.Encode()
+
+	err = c.HTTP.Get(ctx, u.String(), RequestHeadersWithAuth(c.Token.Access), &transactions)
 	if err != nil {
 		return nil, err
 	}
