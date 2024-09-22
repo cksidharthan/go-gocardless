@@ -18,7 +18,10 @@ func TestClient_ListInstitutions(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		institutions, err := client.ListInstitutions(context.Background(), gocardless.NetherlandsInstitution, true)
+		institutions, err := client.ListInstitutions(context.Background(), gocardless.ListInstitutionsParams{
+			Country:         gocardless.NetherlandsInstitution,
+			PaymentsEnabled: "true",
+		})
 		assert.NoError(t, err)
 		assert.NotNil(t, institutions)
 	})
@@ -30,7 +33,10 @@ func TestClient_ListInstitutions(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		institutions, err := client.ListInstitutions(context.Background(), gocardless.NetherlandsInstitution, true)
+		institutions, err := client.ListInstitutions(context.Background(), gocardless.ListInstitutionsParams{
+			Country:         gocardless.NetherlandsInstitution,
+			PaymentsEnabled: "true",
+		})
 		assert.Error(t, err)
 		assert.Nil(t, institutions)
 

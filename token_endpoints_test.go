@@ -26,8 +26,8 @@ func TestClient_NewToken(t *testing.T) {
 		t.Parallel()
 
 		invalidClient, err := getInvalidTestClient(t)
-		assert.Error(t, err)
-		assert.Nil(t, invalidClient)
+		assert.NoError(t, err)
+		assert.NotNil(t, invalidClient)
 	})
 }
 

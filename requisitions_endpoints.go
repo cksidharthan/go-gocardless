@@ -16,7 +16,7 @@ func (c Client) CreateRequisition(ctx context.Context, requisitionRequestBody *R
 	return &requisition, nil
 }
 
-// ListRequisition lists all requisitions
+// ListRequisitions lists all requisitions
 func (c Client) ListRequisitions(ctx context.Context, requestParams *ListRequisitionsParams) (*Requisitions, error) {
 	var requisitions Requisitions
 
