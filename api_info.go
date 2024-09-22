@@ -1,9 +1,9 @@
-package nordigen
+package gocardless
 
 const (
-	NordigenBaseURL = "https://bankaccountdata.gocardless.com/api"
-	APIVersion      = "v2"
-	TestBaseURL     = "https://localhost:8000/api"
+	BaseURL     = "https://bankaccountdata.gocardless.com/api"
+	APIVersion  = "v2"
+	TestBaseURL = "https://localhost:8000/api"
 )
 
 const (

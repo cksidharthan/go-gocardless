@@ -1,4 +1,4 @@
-package nordigen_test
+package gocardless_test
 
 import (
 	"context"
@@ -14,16 +14,13 @@ func TestClient_GetAccount(t *testing.T) {
 	t.Run("get an account by ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
 		assert.NotNil(t, client)
-
-		token, err := client.NewToken(context.Background())
 		assert.NoError(t, err)
-		assert.NotNil(t, token)
 
-		testAccountID := os.Getenv("NORDIGEN_TEST_ACCOUNT_ID")
+		testAccountID := os.Getenv("GOCARDLESS_TEST_ACCOUNT_ID")
 
-		account, err := client.GetAccount(context.Background(), token.Access, testAccountID)
+		account, err := client.GetAccount(context.Background(), testAccountID)
 		assert.NoError(t, err)
 		assert.NotNil(t, account)
 	})
@@ -31,14 +28,11 @@ func TestClient_GetAccount(t *testing.T) {
 	t.Run("get an account by invalid ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
-		account, err := client.GetAccount(context.Background(), token.Access, "invalid")
+		account, err := client.GetAccount(context.Background(), "invalid")
 		assert.Error(t, err)
 		assert.Nil(t, account)
 	})
@@ -50,16 +44,13 @@ func TestClient_GetAccountBalances(t *testing.T) {
 	t.Run("get balances for an account by ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
+		testAccountID := os.Getenv("GOCARDLESS_TEST_ACCOUNT_ID")
 
-		testAccountID := os.Getenv("NORDIGEN_TEST_ACCOUNT_ID")
-
-		balances, err := client.GetAccountBalances(context.Background(), token.Access, testAccountID)
+		balances, err := client.GetAccountBalances(context.Background(), testAccountID)
 		assert.NoError(t, err)
 		assert.NotNil(t, balances)
 	})
@@ -67,14 +58,11 @@ func TestClient_GetAccountBalances(t *testing.T) {
 	t.Run("get balances for an account by invalid ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
-		balances, err := client.GetAccountBalances(context.Background(), token.Access, "invalid")
+		balances, err := client.GetAccountBalances(context.Background(), "invalid")
 		assert.Error(t, err)
 		assert.Nil(t, balances)
 	})
@@ -86,16 +74,13 @@ func TestClient_GetAccountDetails(t *testing.T) {
 	t.Run("get details for an account by ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
+		testAccountID := os.Getenv("GOCARDLESS_TEST_ACCOUNT_ID")
 
-		testAccountID := os.Getenv("NORDIGEN_TEST_ACCOUNT_ID")
-
-		details, err := client.GetAccountDetails(context.Background(), token.Access, testAccountID)
+		details, err := client.GetAccountDetails(context.Background(), testAccountID)
 		assert.NoError(t, err)
 		assert.NotNil(t, details)
 	})
@@ -103,14 +88,15 @@ func TestClient_GetAccountDetails(t *testing.T) {
 	t.Run("get details for an account by invalid ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
 		token, err := client.NewToken(context.Background())
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		details, err := client.GetAccountDetails(context.Background(), token.Access, "invalid")
+		details, err := client.GetAccountDetails(context.Background(), "invalid")
 		assert.Error(t, err)
 		assert.Nil(t, details)
 	})
@@ -122,16 +108,13 @@ func TestClient_GetAccountTransactions(t *testing.T) {
 	t.Run("get transactions for an account by ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
+		testAccountID := os.Getenv("GOCARDLESS_TEST_ACCOUNT_ID")
 
-		testAccountID := os.Getenv("NORDIGEN_TEST_ACCOUNT_ID")
-
-		transactions, err := client.GetAccountTransactions(context.Background(), token.Access, testAccountID)
+		transactions, err := client.GetAccountTransactions(context.Background(), testAccountID, nil, nil)
 		assert.NoError(t, err)
 		assert.NotNil(t, transactions)
 	})
@@ -139,14 +122,11 @@ func TestClient_GetAccountTransactions(t *testing.T) {
 	t.Run("get transactions for an account by invalid ID", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
-		transactions, err := client.GetAccountTransactions(context.Background(), token.Access, "invalid")
+		transactions, err := client.GetAccountTransactions(context.Background(), "invalid", nil, nil)
 		assert.Error(t, err)
 		assert.Nil(t, transactions)
 	})

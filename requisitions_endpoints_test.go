@@ -1,4 +1,4 @@
-package nordigen_test
+package gocardless_test
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/cksidharthan/go-nordigen"
+	"github.com/cksidharthan/go-gocardless"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,62 +16,60 @@ func TestClient_CreateRequisition(t *testing.T) {
 	t.Run("create new requisition", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
+		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
-		assert.Equal(t, nordigen.TestInstitutionID, agreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
-		requisitionRequestBody := &nordigen.RequisitionRequestBody{
+		requisitionRequestBody := &gocardless.RequisitionRequestBody{
 			Redirect:          "https://example.com",
-			InstitutionID:     nordigen.TestInstitutionID,
+			InstitutionID:     gocardless.TestInstitutionID,
 			Agreement:         agreement.ID,
 			Reference:         strconv.Itoa(rand.Intn(1000000000000000000)),
-			UserLanguage:      nordigen.LangEN,
+			UserLanguage:      gocardless.LangEN,
 			AccountSelection:  false,
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), token.Access, requisitionRequestBody)
+		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
-		assert.Equal(t, nordigen.TestInstitutionID, requisition.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 	})
 
 	t.Run("create new requisition with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getInvalidTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		requisitionRequestBody := &nordigen.RequisitionRequestBody{
+		requisitionRequestBody := &gocardless.RequisitionRequestBody{
 			Redirect:          "https://example.com",
-			InstitutionID:     nordigen.TestInstitutionID,
+			InstitutionID:     gocardless.TestInstitutionID,
 			Agreement:         "invalid",
 			Reference:         "12345",
-			UserLanguage:      nordigen.LangEN,
+			UserLanguage:      gocardless.LangEN,
 			AccountSelection:  false,
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), "invalid", requisitionRequestBody)
+		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.Error(t, err)
 		assert.Nil(t, requisition)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }
@@ -82,41 +80,38 @@ func TestClient_ListRequisitions(t *testing.T) {
 	t.Run("list requisitions", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
+		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
-		assert.Equal(t, nordigen.TestInstitutionID, agreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
-		requisitionRequestBody := &nordigen.RequisitionRequestBody{
+		requisitionRequestBody := &gocardless.RequisitionRequestBody{
 			Redirect:          "https://example.com",
-			InstitutionID:     nordigen.TestInstitutionID,
+			InstitutionID:     gocardless.TestInstitutionID,
 			Agreement:         agreement.ID,
 			Reference:         strconv.Itoa(rand.Intn(1000000000000000000)),
-			UserLanguage:      nordigen.LangEN,
+			UserLanguage:      gocardless.LangEN,
 			AccountSelection:  false,
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), token.Access, requisitionRequestBody)
+		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
-		assert.Equal(t, nordigen.TestInstitutionID, requisition.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 
-		responseRequisitions, err := client.ListRequisitions(context.Background(), token.Access, nil)
+		responseRequisitions, err := client.ListRequisitions(context.Background(), nil)
 		assert.NoError(t, err)
 		assert.NotNil(t, responseRequisitions)
 	})
@@ -124,14 +119,15 @@ func TestClient_ListRequisitions(t *testing.T) {
 	t.Run("list requisitions with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getInvalidTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		responseRequisitions, err := client.ListRequisitions(context.Background(), "invalid", nil)
+		responseRequisitions, err := client.ListRequisitions(context.Background(), nil)
 		assert.Error(t, err)
 		assert.Nil(t, responseRequisitions)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }
@@ -142,41 +138,38 @@ func TestClient_FetchRequisition(t *testing.T) {
 	t.Run("fetch requisition", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
+		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
-		assert.Equal(t, nordigen.TestInstitutionID, agreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
-		requisitionRequestBody := &nordigen.RequisitionRequestBody{
+		requisitionRequestBody := &gocardless.RequisitionRequestBody{
 			Redirect:          "https://example.com",
-			InstitutionID:     nordigen.TestInstitutionID,
+			InstitutionID:     gocardless.TestInstitutionID,
 			Agreement:         agreement.ID,
 			Reference:         strconv.Itoa(rand.Intn(1000000000000000000)),
-			UserLanguage:      nordigen.LangEN,
+			UserLanguage:      gocardless.LangEN,
 			AccountSelection:  false,
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), token.Access, requisitionRequestBody)
+		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
-		assert.Equal(t, nordigen.TestInstitutionID, requisition.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 
-		responseRequisition, err := client.FetchRequisition(context.Background(), token.Access, requisition.ID)
+		responseRequisition, err := client.FetchRequisition(context.Background(), requisition.ID)
 		assert.NoError(t, err)
 		assert.NotNil(t, responseRequisition)
 	})
@@ -184,14 +177,15 @@ func TestClient_FetchRequisition(t *testing.T) {
 	t.Run("fetch requisition with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getInvalidTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		responseRequisition, err := client.FetchRequisition(context.Background(), "invalid", "invalid")
+		responseRequisition, err := client.FetchRequisition(context.Background(), "invalid")
 		assert.Error(t, err)
 		assert.Nil(t, responseRequisition)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }
@@ -202,54 +196,52 @@ func TestClient_DeleteRequisition(t *testing.T) {
 	t.Run("delete requisition", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
-		agreementRequestBody := nordigen.AgreementRequestBody{
-			InstitutionID:      nordigen.TestInstitutionID,
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
 			AccessValidForDays: "2",
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
+		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
-		assert.Equal(t, nordigen.TestInstitutionID, agreement.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
-		requisitionRequestBody := &nordigen.RequisitionRequestBody{
+		requisitionRequestBody := &gocardless.RequisitionRequestBody{
 			Redirect:          "https://example.com",
-			InstitutionID:     nordigen.TestInstitutionID,
+			InstitutionID:     gocardless.TestInstitutionID,
 			Agreement:         agreement.ID,
 			Reference:         strconv.Itoa(rand.Intn(1000000000000000000)),
-			UserLanguage:      nordigen.LangEN,
+			UserLanguage:      gocardless.LangEN,
 			AccountSelection:  false,
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), token.Access, requisitionRequestBody)
+		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
-		assert.Equal(t, nordigen.TestInstitutionID, requisition.InstitutionID)
+		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 
-		err = client.DeleteRequisition(context.Background(), token.Access, requisition.ID)
+		err = client.DeleteRequisition(context.Background(), requisition.ID)
 		assert.NoError(t, err)
 	})
 
 	t.Run("delete requisition with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getInvalidTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		err := client.DeleteRequisition(context.Background(), "invalid", "invalid")
+		err = client.DeleteRequisition(context.Background(), "invalid")
 		assert.Error(t, err)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }

@@ -1,6 +1,4 @@
-package nordigen
-
-import "time"
+package gocardless
 
 type ListRequisitionsParams struct {
 	Limit  int `url:"limit,omitempty" json:"limit,omitempty"`
@@ -19,19 +17,19 @@ type RequisitionRequestBody struct {
 }
 
 type Requisition struct {
-	ID                string    `json:"id"`
-	Created           time.Time `json:"created"`
-	Redirect          string    `json:"redirect"`
-	Status            string    `json:"status"`
-	InstitutionID     string    `json:"institution_id"`
-	Agreement         string    `json:"agreement"`
-	Reference         string    `json:"reference"`
-	Accounts          []string  `json:"accounts"`
-	UserLanguage      string    `json:"user_language"`
-	Link              string    `json:"link"`
-	SSN               string    `json:"ssn"`
-	AccountSelection  bool      `json:"account_selection"`
-	RedirectImmediate bool      `json:"redirect_immediate"`
+	ID                string                 `json:"id"`
+	Created           *TimeWithTimeZoneInfoZ `json:"created"`
+	Redirect          string                 `json:"redirect"`
+	Status            string                 `json:"status"`
+	InstitutionID     string                 `json:"institution_id"`
+	Agreement         string                 `json:"agreement"`
+	Reference         string                 `json:"reference"`
+	Accounts          []string               `json:"accounts"`
+	UserLanguage      string                 `json:"user_language"`
+	Link              string                 `json:"link"`
+	SSN               string                 `json:"ssn"`
+	AccountSelection  bool                   `json:"account_selection"`
+	RedirectImmediate bool                   `json:"redirect_immediate"`
 }
 
 type Requisitions struct {

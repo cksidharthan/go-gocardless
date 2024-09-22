@@ -1,10 +1,10 @@
-package nordigen_test
+package gocardless_test
 
 import (
 	"context"
 	"testing"
 
-	"github.com/cksidharthan/go-nordigen"
+	"github.com/cksidharthan/go-gocardless"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -14,14 +14,14 @@ func TestClient_ListInstitutions(t *testing.T) {
 	t.Run("list institutions", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
-		institutions, err := client.ListInstitutions(context.Background(), token.Access, nordigen.NetherlandsInstitution, true)
+		institutions, err := client.ListInstitutions(context.Background(), gocardless.ListInstitutionsParams{
+			Country:         gocardless.NetherlandsInstitution,
+			PaymentsEnabled: "true",
+		})
 		assert.NoError(t, err)
 		assert.NotNil(t, institutions)
 	})
@@ -29,14 +29,18 @@ func TestClient_ListInstitutions(t *testing.T) {
 	t.Run("list institutions with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getInvalidTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		institutions, err := client.ListInstitutions(context.Background(), "invalid", nordigen.NetherlandsInstitution, true)
+		institutions, err := client.ListInstitutions(context.Background(), gocardless.ListInstitutionsParams{
+			Country:         gocardless.NetherlandsInstitution,
+			PaymentsEnabled: "true",
+		})
 		assert.Error(t, err)
 		assert.Nil(t, institutions)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }
@@ -47,30 +51,28 @@ func TestClient_FetchInstitution(t *testing.T) {
 	t.Run("fetch institution", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
-		institution, err := client.FetchInstitution(context.Background(), token.Access, nordigen.TestInstitutionID)
+		institution, err := client.FetchInstitution(context.Background(), gocardless.TestInstitutionID)
 		assert.NoError(t, err)
 		assert.NotNil(t, institution)
-		assert.Equal(t, nordigen.TestInstitutionID, institution.ID)
+		assert.Equal(t, gocardless.TestInstitutionID, institution.ID)
 	})
 
 	t.Run("fetch institution with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client := getTestClient(t)
+		client, err := getInvalidTestClient(t)
+		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		institution, err := client.FetchInstitution(context.Background(), "invalid", nordigen.TestInstitutionID)
+		institution, err := client.FetchInstitution(context.Background(), gocardless.TestInstitutionID)
 		assert.Error(t, err)
 		assert.Nil(t, institution)
 
-		checkErr := nordigen.ExtractError(err)
+		checkErr := gocardless.ExtractError(err)
 		assert.Equal(t, 401, checkErr.StatusCode)
 	})
 }

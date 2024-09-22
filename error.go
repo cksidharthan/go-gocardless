@@ -1,4 +1,4 @@
-package nordigen
+package gocardless
 
 import (
 	"encoding/json"
@@ -21,7 +21,6 @@ type Reference struct {
 
 func NewError(errResponse *http.Response) error {
 	var newErr Error
-	// print response body
 	err := json.NewDecoder(errResponse.Body).Decode(&newErr)
 	if err != nil {
 		return fmt.Errorf("failed to decode response: %w", err)

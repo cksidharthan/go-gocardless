@@ -1,41 +1,42 @@
-package nordigen_test
+package gocardless_test
 
 import (
 	"fmt"
 	"os"
 	"testing"
 
-	"github.com/cksidharthan/go-nordigen"
+	gocardless "github.com/cksidharthan/go-gocardless"
 )
 
-func getTestClient(t *testing.T) *nordigen.Client {
+func getTestClient(t *testing.T) (*gocardless.Client, error) {
 	t.Helper()
 
-	secretID := os.Getenv("NORDIGEN_SECRET_ID")
-	secretKey := os.Getenv("NORDIGEN_SECRET_KEY")
+	secretID := os.Getenv("GOCARDLESS_SECRET_ID")
+	secretKey := os.Getenv("GOCARDLESS_SECRET_KEY")
 	if secretID == "" || secretKey == "" {
-		fmt.Println("NORDIGEN_SECRET_ID or NORDIGEN_SECRET_KEY is not set")
+		fmt.Println("GOCARDLESS_SECRET_ID or GOCARDLESS_SECRET_KEY is not set")
 	}
 
-	return nordigen.New(
-		&nordigen.Config{
-			BaseURL:    nordigen.NordigenBaseURL,
-			APIVersion: nordigen.APIVersion,
+	return gocardless.New(
+		&gocardless.Config{
+			BaseURL:    gocardless.BaseURL,
+			APIVersion: gocardless.APIVersion,
 			SecretID:   secretID,
 			SecretKey:  secretKey,
 		},
 	)
 }
 
-func getInvalidTestClient(t *testing.T) *nordigen.Client {
+func getInvalidTestClient(t *testing.T) (*gocardless.Client, error) {
 	t.Helper()
 
-	return nordigen.New(
-		&nordigen.Config{
-			BaseURL:    nordigen.NordigenBaseURL,
-			APIVersion: nordigen.APIVersion,
-			SecretID:   "invalid",
-			SecretKey:  "invalid",
+	return &gocardless.Client{
+		HTTP:      gocardless.NewHTTPClient(gocardless.BaseURL, gocardless.APIVersion),
+		SecretID:  "invalid",
+		SecretKey: "invalid",
+		Token: &gocardless.Token{
+			Access:  "invalid",
+			Refresh: "invalid",
 		},
-	)
+	}, nil
 }

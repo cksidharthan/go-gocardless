@@ -1,6 +1,6 @@
-module github.com/cksidharthan/go-nordigen
+module github.com/cksidharthan/go-gocardless
 
-go 1.22.7
+go 1.23.1
 
 require github.com/stretchr/testify v1.8.2
 
