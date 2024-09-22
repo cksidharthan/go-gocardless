@@ -1,5 +1,7 @@
 package gocardless
 
+// ListInstitutionsParams are the parameters that can be used when listing institutions
+// NOTE: Except for Country, all other fields should be boolean strings
 type ListInstitutionsParams struct {
 	AccessScopesSupported        string `url:"access_scopes_supported,omitempty" json:"access_scopes_supported,omitempty"`
 	AccountSelectionSupported    string `url:"account_selection_supported,omitempty" json:"account_selection_supported,omitempty"`
@@ -25,6 +27,7 @@ type Institution struct {
 	Logo                 string            `json:"logo"`
 	SupportedPayments    SupportedPayments `json:"supported_payments"`
 	SupportedFeatures    []string          `json:"supported_features"`
+	IdentificationCodes  []string          `json:"identification_codes"`
 }
 
 type SupportedPayments struct {
