@@ -6,7 +6,7 @@ import (
 )
 
 // ListPayments returns a list of payments
-func (c Client) ListPayments(ctx context.Context, token string, limit, offset int) (*Payments, error) {
+func (c Client) ListPayments(ctx context.Context, limit, offset int) (*Payments, error) {
 	var response Payments
 
 	params := map[string]string{
@@ -14,7 +14,7 @@ func (c Client) ListPayments(ctx context.Context, token string, limit, offset in
 		"offset": strconv.Itoa(offset),
 	}
 
-	err := c.HTTP.Get(ctx, BuildQueryURL(PaymentsPath, params), RequestHeadersWithAuth(token), &response)
+	err := c.HTTP.Get(ctx, BuildQueryURL(PaymentsPath, params), RequestHeadersWithAuth(c.Token.Access), &response)
 	if err != nil {
 		return nil, err
 	}

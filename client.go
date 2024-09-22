@@ -49,7 +49,7 @@ func New(config *Config) (*Client, error) {
 }
 
 // refreshGocardlessToken refreshes the access token and the refresh token
-func refreshGocardlessToken(client *Client) error {
+func refreshGocardlessToken(client *Client) {
 	sigterm := make(chan os.Signal, 1)
 	signal.Notify(sigterm, syscall.SIGTERM, syscall.SIGINT)
 
@@ -57,7 +57,8 @@ func refreshGocardlessToken(client *Client) error {
 		select {
 		case <-sigterm:
 			fmt.Println("Received termination signal, exiting refreshGocardlessToken")
-			return nil
+
+			return
 		case <-time.After(1 * time.Minute):
 			if time.Unix(int64(client.Token.AccessExpires), 0).Before(time.Now().Add(1 * time.Minute)) {
 				newToken, err := client.RefreshToken(context.Background(), client.Token.Refresh)

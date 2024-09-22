@@ -18,11 +18,7 @@ func TestClient_ListInstitutions(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
-		institutions, err := client.ListInstitutions(context.Background(), token.Access, gocardless.NetherlandsInstitution, true)
+		institutions, err := client.ListInstitutions(context.Background(), gocardless.NetherlandsInstitution, true)
 		assert.NoError(t, err)
 		assert.NotNil(t, institutions)
 	})
@@ -30,11 +26,11 @@ func TestClient_ListInstitutions(t *testing.T) {
 	t.Run("list institutions with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
+		client, err := getInvalidTestClient(t)
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		institutions, err := client.ListInstitutions(context.Background(), "invalid", gocardless.NetherlandsInstitution, true)
+		institutions, err := client.ListInstitutions(context.Background(), gocardless.NetherlandsInstitution, true)
 		assert.Error(t, err)
 		assert.Nil(t, institutions)
 
@@ -53,11 +49,7 @@ func TestClient_FetchInstitution(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
-		institution, err := client.FetchInstitution(context.Background(), token.Access, gocardless.TestInstitutionID)
+		institution, err := client.FetchInstitution(context.Background(), gocardless.TestInstitutionID)
 		assert.NoError(t, err)
 		assert.NotNil(t, institution)
 		assert.Equal(t, gocardless.TestInstitutionID, institution.ID)
@@ -66,11 +58,11 @@ func TestClient_FetchInstitution(t *testing.T) {
 	t.Run("fetch institution with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
+		client, err := getInvalidTestClient(t)
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		institution, err := client.FetchInstitution(context.Background(), "invalid", gocardless.TestInstitutionID)
+		institution, err := client.FetchInstitution(context.Background(), gocardless.TestInstitutionID)
 		assert.Error(t, err)
 		assert.Nil(t, institution)
 

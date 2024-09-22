@@ -20,10 +20,6 @@ func TestClient_CreateRequisition(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
@@ -31,7 +27,7 @@ func TestClient_CreateRequisition(t *testing.T) {
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
+		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
@@ -46,7 +42,7 @@ func TestClient_CreateRequisition(t *testing.T) {
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), token.Access, requisitionRequestBody)
+		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
 		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
@@ -55,7 +51,7 @@ func TestClient_CreateRequisition(t *testing.T) {
 	t.Run("create new requisition with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
+		client, err := getInvalidTestClient(t)
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
@@ -69,7 +65,7 @@ func TestClient_CreateRequisition(t *testing.T) {
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), "invalid", requisitionRequestBody)
+		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.Error(t, err)
 		assert.Nil(t, requisition)
 
@@ -88,10 +84,6 @@ func TestClient_ListRequisitions(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
@@ -99,7 +91,7 @@ func TestClient_ListRequisitions(t *testing.T) {
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
+		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
@@ -114,12 +106,12 @@ func TestClient_ListRequisitions(t *testing.T) {
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), token.Access, requisitionRequestBody)
+		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
 		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 
-		responseRequisitions, err := client.ListRequisitions(context.Background(), token.Access, nil)
+		responseRequisitions, err := client.ListRequisitions(context.Background(), nil)
 		assert.NoError(t, err)
 		assert.NotNil(t, responseRequisitions)
 	})
@@ -127,11 +119,11 @@ func TestClient_ListRequisitions(t *testing.T) {
 	t.Run("list requisitions with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
+		client, err := getInvalidTestClient(t)
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		responseRequisitions, err := client.ListRequisitions(context.Background(), "invalid", nil)
+		responseRequisitions, err := client.ListRequisitions(context.Background(), nil)
 		assert.Error(t, err)
 		assert.Nil(t, responseRequisitions)
 
@@ -150,10 +142,6 @@ func TestClient_FetchRequisition(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
@@ -161,7 +149,7 @@ func TestClient_FetchRequisition(t *testing.T) {
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
+		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
@@ -176,12 +164,12 @@ func TestClient_FetchRequisition(t *testing.T) {
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), token.Access, requisitionRequestBody)
+		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
 		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 
-		responseRequisition, err := client.FetchRequisition(context.Background(), token.Access, requisition.ID)
+		responseRequisition, err := client.FetchRequisition(context.Background(), requisition.ID)
 		assert.NoError(t, err)
 		assert.NotNil(t, responseRequisition)
 	})
@@ -189,11 +177,11 @@ func TestClient_FetchRequisition(t *testing.T) {
 	t.Run("fetch requisition with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
+		client, err := getInvalidTestClient(t)
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		responseRequisition, err := client.FetchRequisition(context.Background(), "invalid", "invalid")
+		responseRequisition, err := client.FetchRequisition(context.Background(), "invalid")
 		assert.Error(t, err)
 		assert.Nil(t, responseRequisition)
 
@@ -212,10 +200,6 @@ func TestClient_DeleteRequisition(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  "180",
@@ -223,7 +207,7 @@ func TestClient_DeleteRequisition(t *testing.T) {
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), token.Access, agreementRequestBody)
+		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
@@ -238,23 +222,23 @@ func TestClient_DeleteRequisition(t *testing.T) {
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), token.Access, requisitionRequestBody)
+		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
 		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 
-		err = client.DeleteRequisition(context.Background(), token.Access, requisition.ID)
+		err = client.DeleteRequisition(context.Background(), requisition.ID)
 		assert.NoError(t, err)
 	})
 
 	t.Run("delete requisition with invalid token", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
+		client, err := getInvalidTestClient(t)
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		err = client.DeleteRequisition(context.Background(), "invalid", "invalid")
+		err = client.DeleteRequisition(context.Background(), "invalid")
 		assert.Error(t, err)
 
 		checkErr := gocardless.ExtractError(err)

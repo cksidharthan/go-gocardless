@@ -18,11 +18,7 @@ func TestClient_ListPayments(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 
-		token, err := client.NewToken(context.Background())
-		assert.NoError(t, err)
-		assert.NotNil(t, token)
-
-		payments, err := client.ListPayments(context.Background(), token.Access, 10, 0)
+		payments, err := client.ListPayments(context.Background(), 10, 0)
 		assert.Error(t, err)
 		assert.Nil(t, payments)
 	})

@@ -6,9 +6,9 @@ import (
 )
 
 // CreateRequisition creates a new requisition
-func (c Client) CreateRequisition(ctx context.Context, token string, requisitionRequestBody *RequisitionRequestBody) (*Requisition, error) {
+func (c Client) CreateRequisition(ctx context.Context, requisitionRequestBody *RequisitionRequestBody) (*Requisition, error) {
 	var requisition Requisition
-	err := c.HTTP.Post(ctx, RequisitionsPath, RequestHeadersWithAuth(token), requisitionRequestBody, &requisition)
+	err := c.HTTP.Post(ctx, RequisitionsPath, RequestHeadersWithAuth(c.Token.Access), requisitionRequestBody, &requisition)
 	if err != nil {
 		return nil, err
 	}
@@ -17,7 +17,7 @@ func (c Client) CreateRequisition(ctx context.Context, token string, requisition
 }
 
 // ListRequisition lists all requisitions
-func (c Client) ListRequisitions(ctx context.Context, token string, requestParams *ListRequisitionsParams) (*Requisitions, error) {
+func (c Client) ListRequisitions(ctx context.Context, requestParams *ListRequisitionsParams) (*Requisitions, error) {
 	var requisitions Requisitions
 
 	endpointURL := RequisitionsPath
@@ -30,7 +30,7 @@ func (c Client) ListRequisitions(ctx context.Context, token string, requestParam
 		}
 	}
 
-	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(token), &requisitions)
+	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(c.Token.Access), &requisitions)
 	if err != nil {
 		return nil, err
 	}
@@ -39,9 +39,9 @@ func (c Client) ListRequisitions(ctx context.Context, token string, requestParam
 }
 
 // FetchRequisition retrieves a requisition by requisitionID
-func (c Client) FetchRequisition(ctx context.Context, token string, requisitionID string) (*Requisition, error) {
+func (c Client) FetchRequisition(ctx context.Context, requisitionID string) (*Requisition, error) {
 	var requisition Requisition
-	err := c.HTTP.Get(ctx, RequisitionsPath+requisitionID, RequestHeadersWithAuth(token), &requisition)
+	err := c.HTTP.Get(ctx, RequisitionsPath+requisitionID, RequestHeadersWithAuth(c.Token.Access), &requisition)
 	if err != nil {
 		return nil, err
 	}
@@ -50,8 +50,8 @@ func (c Client) FetchRequisition(ctx context.Context, token string, requisitionI
 }
 
 // DeleteRequisition deletes a requisition by requisitionID
-func (c Client) DeleteRequisition(ctx context.Context, token string, requisitionID string) error {
-	err := c.HTTP.Delete(ctx, RequisitionsPath+requisitionID, RequestHeadersWithAuth(token), nil)
+func (c Client) DeleteRequisition(ctx context.Context, requisitionID string) error {
+	err := c.HTTP.Delete(ctx, RequisitionsPath+requisitionID, RequestHeadersWithAuth(c.Token.Access), nil)
 	if err != nil {
 		return err
 	}
