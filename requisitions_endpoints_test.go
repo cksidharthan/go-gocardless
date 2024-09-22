@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"testing"
 
-	gocardless "github.com/cksidharthan/go-gocardless"
+	"github.com/cksidharthan/go-gocardless"
 	"github.com/stretchr/testify/assert"
 )
 
