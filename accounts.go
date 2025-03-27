@@ -79,36 +79,46 @@ type TransactionParams struct {
 
 type Transaction struct {
 	TransactionID                          string               `json:"transactionId"`
+	EntryReference                         string               `json:"entryReference"`
+	EndToEndID                             string               `json:"endToEndId"`
+	MandateID                              string               `json:"mandateId"`
+	CheckID                                string               `json:"checkId"`
+	CreditorID                             string               `json:"creditorId"`
 	BookingDate                            string               `json:"bookingDate"`
 	ValueDate                              string               `json:"valueDate"`
 	BookingDateTime                        TimeWithTimeZoneInfo `json:"bookingDateTime"`
 	ValueDateTime                          TimeWithTimeZoneInfo `json:"valueDateTime"`
 	TransactionAmount                      Amount               `json:"transactionAmount"`
+	CurrencyExchange                       []CurrencyExchange   `json:"currencyExchange"`
 	CreditorName                           string               `json:"creditorName"`
 	CreditorAccount                        Account              `json:"creditorAccount"`
-	DebtorName                             string               `json:"debtorName"`
-	DebtorAccount                          Account              `json:"debtorAccount"`
-	BankTransactionCode                    string               `json:"bankTransactionCode"`
+	UltimateCollector                      string               `json:"ultimateCreditor"`
 	RemittanceInformationUnstructured      string               `json:"remittanceInformationUnstructured"`
 	RemittanceInformationUnstructuredArray []string             `json:"remittanceInformationUnstructuredArray"`
+	RemittanceInformationStructured        string               `json:"remittanceInformationStructured"`
+	RemittanceInformationStructuredArray   []string             `json:"remittanceInformationStructuredArray"`
+	AdditionalInformation                  string               `json:"additionalInformation"`
+	PurposeCode                            string               `json:"purposeCode"`
+	BankTransactionCode                    string               `json:"bankTransactionCode"`
 	ProprietaryBankTransactionCode         string               `json:"proprietaryBankTransactionCode"`
 	InternalTransactionID                  string               `json:"internalTransactionId"`
-
-	AdditionalInformation           string  `json:"additionalInformation"`
+	BalanceAfterTransaction                Amount               `json:"balanceAfterTransaction"`
+	// The below fields are probably deprecated.
+	DebtorName                      string  `json:"debtorName"`
+	DebtorAccount                   Account `json:"debtorAccount"`
 	AdditionalInformationStructured string  `json:"additionalInformationStructured"`
-	BalanceAfterTransaction         Balance `json:"balanceAfterTransaction"`
-	CheckID                         string  `json:"checkId"`
-	CreditorID                      string  `json:"creditorId"`
-	// CurrencyExchange                []string `json:"currencyExchange"`
-	DebtorAgent                          string   `json:"debtorAgent"`
-	EndToEndID                           string   `json:"endToEndId"`
-	EntryReference                       string   `json:"entryReference"`
-	MandateID                            string   `json:"mandateId"`
-	MerchantCategoryCode                 string   `json:"merchantCategoryCode"`
-	RemittanceInformationStructured      string   `json:"remittanceInformationStructured"`
-	RemittanceInformationStructuredArray []string `json:"remittanceInformationStructuredArray"`
-	UltimateCollector                    string   `json:"ultimateCreditor"`
-	UltimateDebtor                       string   `json:"ultimateDebtor"`
+	DebtorAgent                     string  `json:"debtorAgent"`
+	MerchantCategoryCode            string  `json:"merchantCategoryCode"`
+	UltimateDebtor                  string  `json:"ultimateDebtor"`
+}
+
+type CurrencyExchange struct {
+	SourceCurrency         string `json:"sourceCurrency"`
+	ExchangeRate           string `json:"exchangeRate"`
+	UnitCurrency           string `json:"unitCurrency"`
+	TargetCurrency         string `json:"targetCurrency"`
+	QuotationDate          string `json:"quotationDate"`
+	ContractIdentification string `json:"contractIdentification"`
 }
 
 type AccountTransactions struct {

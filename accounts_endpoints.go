@@ -46,8 +46,8 @@ func (c Client) GetAccountDetails(ctx context.Context, accountID string) (*Detai
 
 // GetAccountTransactions retrieves transactions for an account by ID
 // dateFrom and dateTo are optional parameters.
-func (c Client) GetAccountTransactions(ctx context.Context, accountID string, dateFrom, dateTo *time.Time) (*Transactions, error) {
-	var transactions Transactions
+func (c Client) GetAccountTransactions(ctx context.Context, accountID string, dateFrom, dateTo *time.Time) (*AccountTransactions, error) {
+	var transactions AccountTransactions
 	endpointURL := AccountsPath + accountID + "/transactions"
 
 	// Build query parameters
