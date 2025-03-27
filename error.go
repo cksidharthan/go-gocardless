@@ -7,16 +7,10 @@ import (
 )
 
 type Error struct {
-	Summary    string    `json:"summary"`
-	Detail     string    `json:"detail"`
-	StatusCode int       `json:"status_code"`
-	Reference  Reference `json:"reference"`
-	Type       string    `json:"type"`
-}
-
-type Reference struct {
-	Summary string `json:"summary"`
-	Detail  string `json:"detail"`
+	Summary    string `json:"summary"`
+	Detail     string `json:"detail"`
+	StatusCode int    `json:"status_code"`
+	Type       string `json:"type"`
 }
 
 func NewError(errResponse *http.Response) error {
