@@ -7,12 +7,14 @@ import (
 	"log/slog"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
 	"time"
 )
 
 // Client is the Nordigen client
 type Client struct {
+	mu        sync.Mutex
 	Logger    *log.Logger
 	HTTP      IHTTPClient
 	SecretID  string
@@ -79,8 +81,10 @@ func refreshGocardlessToken(client *Client) {
 					continue
 				}
 
+				client.mu.Lock()
 				client.Token.Access = newToken.Access
 				client.Token.AccessExpires = newToken.AccessExpires
+				client.mu.Unlock()
 			}
 
 			if time.Unix(int64(client.Token.RefreshExpires), 0).Before(time.Now().Add(1 * time.Minute)) {
@@ -90,7 +94,9 @@ func refreshGocardlessToken(client *Client) {
 					continue
 				}
 
+				client.mu.Lock()
 				client.Token = newToken
+				client.mu.Unlock()
 			}
 		}
 	}
