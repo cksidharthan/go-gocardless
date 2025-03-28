@@ -13,11 +13,7 @@ func TestClient_NewToken(t *testing.T) {
 	t.Run("create a new client token", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
-		token, err := client.NewToken(context.Background())
+		token, err := testClient.NewToken(context.Background())
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 	})
@@ -37,15 +33,11 @@ func TestClient_Refresh(t *testing.T) {
 	t.Run("refresh a client token", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
-		token, err := client.NewToken(context.Background())
+		token, err := testClient.NewToken(context.Background())
 		assert.NoError(t, err)
 		assert.NotNil(t, token)
 
-		refreshedToken, err := client.RefreshToken(context.Background(), token.Refresh)
+		refreshedToken, err := testClient.RefreshToken(context.Background(), token.Refresh)
 		assert.NoError(t, err)
 		assert.NotNil(t, refreshedToken)
 	})
@@ -53,11 +45,7 @@ func TestClient_Refresh(t *testing.T) {
 	t.Run("refresh a client token with invalid refresh token", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
-		refreshedToken, err := client.RefreshToken(context.Background(), "invalid")
+		refreshedToken, err := testClient.RefreshToken(context.Background(), "invalid")
 		assert.Error(t, err)
 		assert.Nil(t, refreshedToken)
 	})

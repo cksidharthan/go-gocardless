@@ -14,11 +14,7 @@ func TestClient_ListPayments(t *testing.T) {
 	t.Run("list payments", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
-		payments, err := client.ListPayments(context.Background(), 10, 0)
+		payments, err := testClient.ListPayments(context.Background(), 10, 0)
 		assert.Error(t, err)
 		assert.Nil(t, payments)
 	})

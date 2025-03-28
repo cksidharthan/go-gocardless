@@ -9,7 +9,7 @@ import (
 
 var (
 	testClient    *gocardless.Client
-	testAccountID string
+	testAccountID = "9bd3dd49-be83-4e7c-8893-bf4c68de410b"
 )
 
 func TestMain(m *testing.M) {

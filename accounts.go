@@ -27,8 +27,8 @@ type Balance struct {
 }
 
 type Amount struct {
-	Amount   float64 `json:"amount"`
-	Currency string  `json:"currency"`
+	Amount   string `json:"amount"`
+	Currency string `json:"currency"`
 }
 
 type AccountBalance struct {

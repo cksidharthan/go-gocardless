@@ -16,10 +16,6 @@ func TestClient_CreateRequisition(t *testing.T) {
 	t.Run("create new requisition", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  gocardless.TestInstitutionMaxHistoricalDays,
@@ -27,7 +23,7 @@ func TestClient_CreateRequisition(t *testing.T) {
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
+		agreement, err := testClient.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
@@ -42,7 +38,7 @@ func TestClient_CreateRequisition(t *testing.T) {
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
+		requisition, err := testClient.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
 		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
@@ -80,18 +76,14 @@ func TestClient_ListRequisitions(t *testing.T) {
 	t.Run("list requisitions", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  gocardless.TestInstitutionMaxHistoricalDays,
-			AccessValidForDays: 2,
+			AccessValidForDays: 90,
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
+		agreement, err := testClient.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
@@ -106,12 +98,12 @@ func TestClient_ListRequisitions(t *testing.T) {
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
+		requisition, err := testClient.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
 		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 
-		responseRequisitions, err := client.ListRequisitions(context.Background(), nil)
+		responseRequisitions, err := testClient.ListRequisitions(context.Background(), nil)
 		assert.NoError(t, err)
 		assert.NotNil(t, responseRequisitions)
 	})
@@ -138,10 +130,6 @@ func TestClient_FetchRequisition(t *testing.T) {
 	t.Run("fetch requisition", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  gocardless.TestInstitutionMaxHistoricalDays,
@@ -149,7 +137,7 @@ func TestClient_FetchRequisition(t *testing.T) {
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
+		agreement, err := testClient.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
@@ -164,12 +152,12 @@ func TestClient_FetchRequisition(t *testing.T) {
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
+		requisition, err := testClient.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
 		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 
-		responseRequisition, err := client.FetchRequisition(context.Background(), requisition.ID)
+		responseRequisition, err := testClient.FetchRequisition(context.Background(), requisition.ID)
 		assert.NoError(t, err)
 		assert.NotNil(t, responseRequisition)
 	})
@@ -196,10 +184,6 @@ func TestClient_DeleteRequisition(t *testing.T) {
 	t.Run("delete requisition", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  gocardless.TestInstitutionMaxHistoricalDays,
@@ -207,7 +191,7 @@ func TestClient_DeleteRequisition(t *testing.T) {
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
+		agreement, err := testClient.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
@@ -222,12 +206,12 @@ func TestClient_DeleteRequisition(t *testing.T) {
 			RedirectImmediate: false,
 		}
 
-		requisition, err := client.CreateRequisition(context.Background(), requisitionRequestBody)
+		requisition, err := testClient.CreateRequisition(context.Background(), requisitionRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, requisition)
 		assert.Equal(t, gocardless.TestInstitutionID, requisition.InstitutionID)
 
-		err = client.DeleteRequisition(context.Background(), requisition.ID)
+		err = testClient.DeleteRequisition(context.Background(), requisition.ID)
 		assert.NoError(t, err)
 	})
 

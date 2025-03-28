@@ -14,10 +14,6 @@ func TestClient_CreateAgreement(t *testing.T) {
 	t.Run("create a new agreement", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  gocardless.TestInstitutionMaxHistoricalDays,
@@ -25,7 +21,7 @@ func TestClient_CreateAgreement(t *testing.T) {
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
+		agreement, err := testClient.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
@@ -34,10 +30,6 @@ func TestClient_CreateAgreement(t *testing.T) {
 	t.Run("create a new agreement with invalid max historical days", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  180,
@@ -45,7 +37,7 @@ func TestClient_CreateAgreement(t *testing.T) {
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
+		agreement, err := testClient.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.Error(t, err)
 		assert.Nil(t, agreement)
 
@@ -82,10 +74,6 @@ func TestClient_FetchAgreement(t *testing.T) {
 	t.Run("fetch an agreement", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  gocardless.TestInstitutionMaxHistoricalDays,
@@ -93,12 +81,12 @@ func TestClient_FetchAgreement(t *testing.T) {
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
+		agreement, err := testClient.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
-		fetchedAgreement, err := client.FetchAgreement(context.Background(), agreement.ID)
+		fetchedAgreement, err := testClient.FetchAgreement(context.Background(), agreement.ID)
 		assert.NoError(t, err)
 		assert.NotNil(t, fetchedAgreement)
 		assert.Equal(t, agreement.ID, fetchedAgreement.ID)
@@ -133,11 +121,7 @@ func TestClient_ListAgreements(t *testing.T) {
 	t.Run("list agreements", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
-		responseAgreements, err := client.ListAgreements(context.Background(), nil)
+		responseAgreements, err := testClient.ListAgreements(context.Background(), nil)
 		assert.NoError(t, err)
 		assert.NotNil(t, responseAgreements)
 	})
@@ -164,10 +148,6 @@ func TestClient_DeleteAgreement(t *testing.T) {
 	t.Run("delete an agreement", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  gocardless.TestInstitutionMaxHistoricalDays,
@@ -175,12 +155,12 @@ func TestClient_DeleteAgreement(t *testing.T) {
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
+		agreement, err := testClient.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 
-		err = client.DeleteAgreement(context.Background(), agreement.ID)
+		err = testClient.DeleteAgreement(context.Background(), agreement.ID)
 		assert.NoError(t, err)
 	})
 
@@ -205,10 +185,6 @@ func TestClient_UpdateAgreement(t *testing.T) {
 	t.Run("update an agreement", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
 			MaxHistoricalDays:  gocardless.TestInstitutionMaxHistoricalDays,
@@ -216,7 +192,7 @@ func TestClient_UpdateAgreement(t *testing.T) {
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
-		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
+		agreement, err := testClient.CreateAgreement(context.Background(), agreementRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, agreement)
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
@@ -226,7 +202,7 @@ func TestClient_UpdateAgreement(t *testing.T) {
 			IPAddress: "0.0.0.0",
 		}
 
-		updatedAgreement, err := client.UpdateAgreement(context.Background(), agreement.ID, updateRequestBody)
+		updatedAgreement, err := testClient.UpdateAgreement(context.Background(), agreement.ID, updateRequestBody)
 		assert.NoError(t, err)
 		assert.NotNil(t, updatedAgreement)
 		assert.Equal(t, gocardless.TestInstitutionID, updatedAgreement.InstitutionID)
