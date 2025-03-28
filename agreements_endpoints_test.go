@@ -31,6 +31,28 @@ func TestClient_CreateAgreement(t *testing.T) {
 		assert.Equal(t, gocardless.TestInstitutionID, agreement.InstitutionID)
 	})
 
+	t.Run("create a new agreement with invalid max historical days", func(t *testing.T) {
+		t.Parallel()
+
+		client, err := getTestClient(t)
+		assert.NoError(t, err)
+		assert.NotNil(t, client)
+
+		agreementRequestBody := gocardless.AgreementRequestBody{
+			InstitutionID:      gocardless.TestInstitutionID,
+			MaxHistoricalDays:  180,
+			AccessValidForDays: 2,
+			AccessScope:        []string{"balances", "details", "transactions"},
+		}
+
+		agreement, err := client.CreateAgreement(context.Background(), agreementRequestBody)
+		assert.Error(t, err)
+		assert.Nil(t, agreement)
+
+		checkErr := gocardless.ExtractError(err)
+		assert.Equal(t, 400, checkErr.StatusCode)
+	})
+
 	t.Run("create a new agreement with invalid token", func(t *testing.T) {
 		t.Parallel()
 
