@@ -22,8 +22,8 @@ func TestClient_CreateRequisition(t *testing.T) {
 
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
-			MaxHistoricalDays:  "180",
-			AccessValidForDays: "2",
+			MaxHistoricalDays:  gocardless.TestInstitutionMaxHistoricalDays,
+			AccessValidForDays: 2,
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
@@ -86,8 +86,8 @@ func TestClient_ListRequisitions(t *testing.T) {
 
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
-			MaxHistoricalDays:  "180",
-			AccessValidForDays: "2",
+			MaxHistoricalDays:  gocardless.TestInstitutionMaxHistoricalDays,
+			AccessValidForDays: 2,
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
@@ -144,8 +144,8 @@ func TestClient_FetchRequisition(t *testing.T) {
 
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
-			MaxHistoricalDays:  "180",
-			AccessValidForDays: "2",
+			MaxHistoricalDays:  gocardless.TestInstitutionMaxHistoricalDays,
+			AccessValidForDays: 2,
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 
@@ -202,8 +202,8 @@ func TestClient_DeleteRequisition(t *testing.T) {
 
 		agreementRequestBody := gocardless.AgreementRequestBody{
 			InstitutionID:      gocardless.TestInstitutionID,
-			MaxHistoricalDays:  "180",
-			AccessValidForDays: "2",
+			MaxHistoricalDays:  gocardless.TestInstitutionMaxHistoricalDays,
+			AccessValidForDays: 2,
 			AccessScope:        []string{"balances", "details", "transactions"},
 		}
 

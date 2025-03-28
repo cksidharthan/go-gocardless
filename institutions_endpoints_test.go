@@ -19,7 +19,7 @@ func TestClient_ListInstitutions(t *testing.T) {
 		assert.NotNil(t, client)
 
 		institutions, err := client.ListInstitutions(context.Background(), gocardless.ListInstitutionsParams{
-			Country:         gocardless.NetherlandsInstitution,
+			Country:         gocardless.SandboxCountryID,
 			PaymentsEnabled: "true",
 		})
 		assert.NoError(t, err)
@@ -34,7 +34,7 @@ func TestClient_ListInstitutions(t *testing.T) {
 		assert.NotNil(t, client)
 
 		institutions, err := client.ListInstitutions(context.Background(), gocardless.ListInstitutionsParams{
-			Country:         gocardless.NetherlandsInstitution,
+			Country:         gocardless.SandboxCountryID,
 			PaymentsEnabled: "true",
 		})
 		assert.Error(t, err)

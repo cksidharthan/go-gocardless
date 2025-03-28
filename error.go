@@ -20,11 +20,20 @@ func NewError(errResponse *http.Response) error {
 		return fmt.Errorf("failed to decode response: %w", err)
 	}
 
+	// check if errResponse.Body is empty
+	if newErr.Summary == "" {
+		return &Error{
+			Summary:    errResponse.Status,
+			Detail:     errResponse.Status,
+			StatusCode: errResponse.StatusCode,
+		}
+	}
+
 	return &newErr
 }
 
 func (e *Error) Error() string {
-	return fmt.Sprintf("%s: %s", e.Summary, e.Detail)
+	return fmt.Sprintf("%d - %s: %s", e.StatusCode, e.Summary, e.Detail)
 }
 
 func ExtractError(err error) *Error {
