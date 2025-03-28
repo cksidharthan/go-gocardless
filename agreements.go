@@ -2,8 +2,8 @@ package gocardless
 
 type AgreementRequestBody struct {
 	InstitutionID      string   `json:"institution_id"`
-	MaxHistoricalDays  string   `json:"max_historical_days"`
-	AccessValidForDays string   `json:"access_valid_for_days"`
+	MaxHistoricalDays  int      `json:"max_historical_days"`
+	AccessValidForDays int      `json:"access_valid_for_days"`
 	AccessScope        []string `json:"access_scope"`
 }
 

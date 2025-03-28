@@ -13,14 +13,16 @@ func (c Client) GetAccount(ctx context.Context, accountID string) (*Account, err
 	endpointURL := AccountsPath + accountID
 	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(c.Token.Access), &account)
 	if err != nil {
+		c.Logger.Printf("failed to get account: %v\n", err)
 		return nil, err
 	}
+
 	return &account, nil
 }
 
 // GetAccountBalances retrieves balances for an account by ID
-func (c Client) GetAccountBalances(ctx context.Context, accountID string) (*Balances, error) {
-	var balances Balances
+func (c Client) GetAccountBalances(ctx context.Context, accountID string) (*AccountBalance, error) {
+	var balances AccountBalance
 	endpointURL := AccountsPath + accountID + "/balances"
 	err := c.HTTP.Get(ctx, endpointURL, RequestHeadersWithAuth(c.Token.Access), &balances)
 	if err != nil {
@@ -44,8 +46,8 @@ func (c Client) GetAccountDetails(ctx context.Context, accountID string) (*Detai
 
 // GetAccountTransactions retrieves transactions for an account by ID
 // dateFrom and dateTo are optional parameters.
-func (c Client) GetAccountTransactions(ctx context.Context, accountID string, dateFrom, dateTo *time.Time) (*Transactions, error) {
-	var transactions Transactions
+func (c Client) GetAccountTransactions(ctx context.Context, accountID string, dateFrom, dateTo *time.Time) (*AccountTransactions, error) {
+	var transactions AccountTransactions
 	endpointURL := AccountsPath + accountID + "/transactions"
 
 	// Build query parameters

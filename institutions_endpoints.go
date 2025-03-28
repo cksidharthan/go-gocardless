@@ -59,12 +59,6 @@ func bindListInstitutionsParams(queryParams ListInstitutionsParams) url.Values {
 	if queryParams.CorporateAccountsSupported != "" {
 		query.Add("corporate_accounts_supported", queryParams.CorporateAccountsSupported)
 	}
-	if queryParams.PaymentSubmissionSupported != "" {
-		query.Add("payment_submission_supported", queryParams.PaymentSubmissionSupported)
-	}
-	if queryParams.PaymentsEnabled != "" {
-		query.Add("payments_enabled", queryParams.PaymentsEnabled)
-	}
 	if queryParams.PendingTransactionsSupported != "" {
 		query.Add("pending_transactions_supported", queryParams.PendingTransactionsSupported)
 	}

@@ -14,13 +14,8 @@ func TestClient_ListInstitutions(t *testing.T) {
 	t.Run("list institutions", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
-		institutions, err := client.ListInstitutions(context.Background(), gocardless.ListInstitutionsParams{
-			Country:         gocardless.NetherlandsInstitution,
-			PaymentsEnabled: "true",
+		institutions, err := testClient.ListInstitutions(context.Background(), gocardless.ListInstitutionsParams{
+			Country: gocardless.UKCountryID,
 		})
 		assert.NoError(t, err)
 		assert.NotNil(t, institutions)
@@ -34,8 +29,7 @@ func TestClient_ListInstitutions(t *testing.T) {
 		assert.NotNil(t, client)
 
 		institutions, err := client.ListInstitutions(context.Background(), gocardless.ListInstitutionsParams{
-			Country:         gocardless.NetherlandsInstitution,
-			PaymentsEnabled: "true",
+			Country: gocardless.SandboxCountryID,
 		})
 		assert.Error(t, err)
 		assert.Nil(t, institutions)
@@ -51,11 +45,7 @@ func TestClient_FetchInstitution(t *testing.T) {
 	t.Run("fetch institution", func(t *testing.T) {
 		t.Parallel()
 
-		client, err := getTestClient(t)
-		assert.NoError(t, err)
-		assert.NotNil(t, client)
-
-		institution, err := client.FetchInstitution(context.Background(), gocardless.TestInstitutionID)
+		institution, err := testClient.FetchInstitution(context.Background(), gocardless.TestInstitutionID)
 		assert.NoError(t, err)
 		assert.NotNil(t, institution)
 		assert.Equal(t, gocardless.TestInstitutionID, institution.ID)
