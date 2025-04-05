@@ -14,7 +14,6 @@ import (
 
 // Client is the Nordigen client
 type Client struct {
-	mu        sync.Mutex
 	Logger    *log.Logger
 	HTTP      IHTTPClient
 	SecretID  string
@@ -61,6 +60,23 @@ func New(config *Config) (*Client, error) {
 	return client, nil
 }
 
+// ReplaceToken replaces the access token and the refresh token in the client using a mutex to ensure thread safety
+func (c *Client) ReplaceToken(token *Token) {
+	var mu sync.Mutex
+
+	mu.Lock()
+	defer mu.Unlock()
+	c.Token.Access = token.Access
+	c.Token.AccessExpires = token.AccessExpires
+	if token.Refresh != "" {
+		c.Token.Refresh = token.Refresh
+	}
+
+	if token.RefreshExpires != 0 {
+		c.Token.RefreshExpires = token.RefreshExpires
+	}
+}
+
 // refreshGocardlessToken refreshes the access token and the refresh token
 func refreshGocardlessToken(client *Client) {
 	client.Logger.Println("refreshGocardlessToken started")
@@ -81,10 +97,7 @@ func refreshGocardlessToken(client *Client) {
 					continue
 				}
 
-				client.mu.Lock()
-				client.Token.Access = newToken.Access
-				client.Token.AccessExpires = newToken.AccessExpires
-				client.mu.Unlock()
+				client.ReplaceToken(newToken)
 			}
 
 			if time.Unix(int64(client.Token.RefreshExpires), 0).Before(time.Now().Add(1 * time.Minute)) {
@@ -94,9 +107,7 @@ func refreshGocardlessToken(client *Client) {
 					continue
 				}
 
-				client.mu.Lock()
-				client.Token = newToken
-				client.mu.Unlock()
+				client.ReplaceToken(newToken)
 			}
 		}
 	}

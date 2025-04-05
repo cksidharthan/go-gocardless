@@ -58,10 +58,10 @@ func (c Client) GetAccountTransactions(ctx context.Context, accountID string, da
 
 	q := u.Query()
 	if dateFrom != nil {
-		q.Set("date_from", dateFrom.Format(time.RFC3339))
+		q.Set("date_from", dateFrom.Format(time.DateOnly))
 	}
 	if dateTo != nil {
-		q.Set("date_to", dateTo.Format(time.RFC3339))
+		q.Set("date_to", dateTo.Format(time.DateOnly))
 	}
 	u.RawQuery = q.Encode()
 
