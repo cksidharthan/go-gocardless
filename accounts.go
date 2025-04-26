@@ -18,12 +18,11 @@ type Account struct {
 }
 
 type Balance struct {
-	BalanceAmount            Amount               `json:"balanceAmount"`
-	BalanceType              string               `json:"balanceType"`
-	ReferenceDate            string               `json:"referenceDate"`
-	CreditLimitIncluded      bool                 `json:"creditLimitIncluded"`
-	LastChangeDateTime       TimeWithTimeZoneInfo `json:"lastChangeDateTime"`
-	LastCommittedTransaction string               `json:"lastCommittedTransaction"`
+	BalanceAmount            Amount `json:"balanceAmount"`
+	BalanceType              string `json:"balanceType"`
+	ReferenceDate            string `json:"referenceDate"`
+	CreditLimitIncluded      bool   `json:"creditLimitIncluded"`
+	LastCommittedTransaction string `json:"lastCommittedTransaction"`
 }
 
 type Amount struct {
@@ -78,31 +77,31 @@ type TransactionParams struct {
 }
 
 type Transaction struct {
-	TransactionID                          string               `json:"transactionId"`
-	EntryReference                         string               `json:"entryReference"`
-	EndToEndID                             string               `json:"endToEndId"`
-	MandateID                              string               `json:"mandateId"`
-	CheckID                                string               `json:"checkId"`
-	CreditorID                             string               `json:"creditorId"`
-	BookingDate                            string               `json:"bookingDate"`
-	ValueDate                              string               `json:"valueDate"`
-	BookingDateTime                        TimeWithTimeZoneInfo `json:"bookingDateTime"`
-	ValueDateTime                          TimeWithTimeZoneInfo `json:"valueDateTime"`
-	TransactionAmount                      Amount               `json:"transactionAmount"`
-	CurrencyExchange                       []CurrencyExchange   `json:"currencyExchange"`
-	CreditorName                           string               `json:"creditorName"`
-	CreditorAccount                        Account              `json:"creditorAccount"`
-	UltimateCollector                      string               `json:"ultimateCreditor"`
-	RemittanceInformationUnstructured      string               `json:"remittanceInformationUnstructured"`
-	RemittanceInformationUnstructuredArray []string             `json:"remittanceInformationUnstructuredArray"`
-	RemittanceInformationStructured        string               `json:"remittanceInformationStructured"`
-	RemittanceInformationStructuredArray   []string             `json:"remittanceInformationStructuredArray"`
-	AdditionalInformation                  string               `json:"additionalInformation"`
-	PurposeCode                            string               `json:"purposeCode"`
-	BankTransactionCode                    string               `json:"bankTransactionCode"`
-	ProprietaryBankTransactionCode         string               `json:"proprietaryBankTransactionCode"`
-	InternalTransactionID                  string               `json:"internalTransactionId"`
-	BalanceAfterTransaction                Amount               `json:"balanceAfterTransaction"`
+	TransactionID                          string                `json:"transactionId"`
+	EntryReference                         string                `json:"entryReference"`
+	EndToEndID                             string                `json:"endToEndId"`
+	MandateID                              string                `json:"mandateId"`
+	CheckID                                string                `json:"checkId"`
+	CreditorID                             string                `json:"creditorId"`
+	BookingDate                            string                `json:"bookingDate"`
+	ValueDate                              string                `json:"valueDate"`
+	BookingDateTime                        TimeWithTimeZoneInfoZ `json:"bookingDateTime"`
+	ValueDateTime                          TimeWithTimeZoneInfoZ `json:"valueDateTime"`
+	TransactionAmount                      Amount                `json:"transactionAmount"`
+	CurrencyExchange                       []CurrencyExchange    `json:"currencyExchange"`
+	CreditorName                           string                `json:"creditorName"`
+	CreditorAccount                        Account               `json:"creditorAccount"`
+	UltimateCollector                      string                `json:"ultimateCreditor"`
+	RemittanceInformationUnstructured      string                `json:"remittanceInformationUnstructured"`
+	RemittanceInformationUnstructuredArray []string              `json:"remittanceInformationUnstructuredArray"`
+	RemittanceInformationStructured        string                `json:"remittanceInformationStructured"`
+	RemittanceInformationStructuredArray   []string              `json:"remittanceInformationStructuredArray"`
+	AdditionalInformation                  string                `json:"additionalInformation"`
+	PurposeCode                            string                `json:"purposeCode"`
+	BankTransactionCode                    string                `json:"bankTransactionCode"`
+	ProprietaryBankTransactionCode         string                `json:"proprietaryBankTransactionCode"`
+	InternalTransactionID                  string                `json:"internalTransactionId"`
+	BalanceAfterTransaction                Amount                `json:"balanceAfterTransaction"`
 	// The below fields are probably deprecated.
 	DebtorName                      string  `json:"debtorName"`
 	DebtorAccount                   Account `json:"debtorAccount"`

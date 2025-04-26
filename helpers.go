@@ -37,22 +37,6 @@ func BuildQueryURL(path string, queryParams map[string]string) string {
 	return queryURL
 }
 
-type TimeWithTimeZoneInfo struct {
-	time.Time
-}
-
-const timeWithTimeZoneInfo = "2006-01-02T15:04:05.999999"
-
-func (ct *TimeWithTimeZoneInfo) UnmarshalJSON(b []byte) error {
-	str := strings.Trim(string(b), `"`)
-	t, err := time.Parse(timeWithTimeZoneInfo, str)
-	if err != nil {
-		return fmt.Errorf("failed to parse time: %w", err)
-	}
-	ct.Time = t
-	return nil
-}
-
 type TimeWithTimeZoneInfoZ struct {
 	time.Time
 }
