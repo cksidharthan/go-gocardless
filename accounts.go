@@ -88,7 +88,7 @@ type Transaction struct {
 	BookingDateTime                        TimeWithTimeZoneInfoZ `json:"bookingDateTime"`
 	ValueDateTime                          TimeWithTimeZoneInfoZ `json:"valueDateTime"`
 	TransactionAmount                      Amount                `json:"transactionAmount"`
-	CurrencyExchange                       []CurrencyExchange    `json:"currencyExchange"`
+	CurrencyExchange                       any                   `json:"currencyExchange"`
 	CreditorName                           string                `json:"creditorName"`
 	CreditorAccount                        Account               `json:"creditorAccount"`
 	UltimateCollector                      string                `json:"ultimateCreditor"`
@@ -109,15 +109,6 @@ type Transaction struct {
 	DebtorAgent                     string  `json:"debtorAgent"`
 	MerchantCategoryCode            string  `json:"merchantCategoryCode"`
 	UltimateDebtor                  string  `json:"ultimateDebtor"`
-}
-
-type CurrencyExchange struct {
-	SourceCurrency         string `json:"sourceCurrency"`
-	ExchangeRate           string `json:"exchangeRate"`
-	UnitCurrency           string `json:"unitCurrency"`
-	TargetCurrency         string `json:"targetCurrency"`
-	QuotationDate          string `json:"quotationDate"`
-	ContractIdentification string `json:"contractIdentification"`
 }
 
 type AccountTransactions struct {
