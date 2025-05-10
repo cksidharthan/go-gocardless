@@ -41,11 +41,23 @@ type TimeWithTimeZoneInfoZ struct {
 	time.Time
 }
 
-const timeWithTimeZoneInfoZ = "2006-01-02T15:04:05.999999Z"
+const (
+	timeWithTimeZoneInfoZ    = "2006-01-02T15:04:05.999999Z"
+	timeWithoutTimeZoneInfoZ = "2006-01-02T15:04:05.999999"
+)
 
 func (ct *TimeWithTimeZoneInfoZ) UnmarshalJSON(b []byte) error {
 	str := strings.Trim(string(b), `"`)
+
+	// Try parsing with Z first
 	t, err := time.Parse(timeWithTimeZoneInfoZ, str)
+	if err == nil {
+		ct.Time = t
+		return nil
+	}
+
+	// If that fails, try parsing without Z
+	t, err = time.Parse(timeWithoutTimeZoneInfoZ, str)
 	if err != nil {
 		return fmt.Errorf("failed to parse time: %w", err)
 	}
